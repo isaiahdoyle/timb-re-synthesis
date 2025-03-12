@@ -1,0 +1,180 @@
+% -----------------------------------------------
+% Template for ISMIR Papers
+% 2025 version, based on previous ISMIR templates
+
+% Requirements :
+% * 6+n page length maximum
+% * 10MB maximum file size
+% * Copyright note must appear in the bottom left corner of first page
+% * Clearer statement about citing own work in anonymized submission
+% (see conference website for additional details)
+% -----------------------------------------------
+
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ismir} % Remove the "submission" option for camera-ready version
+\usepackage{amsmath,cite,url}
+\usepackage{graphicx}
+\usepackage{color}
+
+% Title. Please use IEEE-compliant title case when specifying the title here,
+% as it has implications for the copyright notice
+% ------
+\title{Project Specification for CSC 475 \conferenceyear}
+
+% Note: Please do NOT use \thanks or a \footnote in any of the author markup
+
+% Single address
+% To use with only one author or several with the same address
+% ---------------
+%\oneauthor
+ %{Isaiah Doyle, Aileen Klassen, Elijah Larmer}
+
+  %{University of Victoria\\\texttt{anonymous@ismir.net}}
+
+
+% Two addresses
+% --------------
+%\twoauthors
+%   {First author} {School \\ Department}
+%   {Second author} {Company \\ Address}
+
+%Three addresses
+%--------------
+\author{
+   \textbf{Isaiah Doyle}\\ {University of Victoria \\\texttt{isaiahdoyle@uvic.ca}}
+   \and
+   \textbf{Aileen Klassen}\\ {University of Victoria\\\texttt{aileenklassen@uvic.ca}}
+   \and
+   \textbf{Elijah Larmer}\\ {University of Victoria \\\texttt{elijahlarmer@uvic.ca}}
+}
+
+% Four or more addresses
+% OR alternative format for large number of co-authors
+% ------------
+% \multauthor
+%   {First author$^1$ \hspace{1cm} Second author$^1$ \hspace{1cm} Third author$^2$}
+%   {{\bf Fourth author$^3$ \hspace{1cm} Fifth author$^2$ \hspace{1cm} Sixth author$^1$}\\
+%   $^1$ Department of Computer Science, University, Country\\
+%   $^2$ International Laboratories, City, Country\\
+%   $^3$ Company, Address\\
+%   {\tt\small CorrespondenceAuthor@ismir.edu, PossibleOtherAuthor@ismir.edu}
+%   }
+
+% For the author list in the Creative Common license, please enter author names.
+% Please abbreviate the first names of authors and add 'and' between the second to last and last authors.
+\def\authorname{Doyle, I., Klassen, A., \& Larmer, E.}
+
+% Optional: To use hyperref, uncomment the following.
+% \usepackage[bookmarks=false,pdfauthor={\authorname},pdfsubject={\pdfsubject},hidelinks]{hyperref}
+% Mind the bookmarks=false option; bookmarks are incompatible with ismir.sty.
+
+\sloppy % please retain sloppy command for improved formatting
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  The state of programs designed to support voice training are lacking with respect to timbral nuance. For trans people undergoing voice training, available applications tend to favour pitch as the primary – or in some cases sole – measure of progress. To accommodate the many parameters that factor into voice perception, we propose a tool to allow users to mimic a resynthesized version of their voice using applied timbral descriptors.
+\end{abstract}
+
+\section{Introduction}\label{sec:introduction}
+
+This project is a component of a larger application that supports people undergoing voice training in developing their preferred vocal timbre by mimicking a synthesized (or otherwise modified) version of their voice with any desired timbral modifications. Current applications (DevExtras, 2018; Seek \& Nitz, 2020; Antoni \& Speechtools Ltd., 2013) rely largely on pitch to distinguish vocal characteristics. The human voice is far more nuanced than this, and as such timbral development of those undergoing voice training is paramount to the users’ success (Hawley \& Hancock, 2024). Semantic timbral descriptors (e.g., breathier, huskier, higher) will be given by the user to apply to a recording of their voice, and the resulting output can be tweaked further using additional descriptors. By using the user’s voice as the primary input source, our goal is to promote a healthy and informed way to explore the timbral possibilities of one’s voice. Analysis of the user’s voice will be detailed with respect to a number of timbral descriptors and made available through an accessible user interface, such that the program can be used as a tool for speech pathologists and the public (e.g., trans people seeking a more feminine/masculine/neutral voice, people with speech impairments (Barkmeier-Kraemer et. al), voice actors) alike.
+
+\section{Methodology}
+
+We plan on using Python as our coding language for this project. We anticipate using libraries like Coqui TTS, Parselmouth (Jadoul., Boer, \& Ravignani, 2024), and Librosa to support vocal analysis and synthesis steps. For testing, we plan on using our own voices and possibly the voices of other volunteers. Any training will utilize publicly available datasets like Mozilla’s (2024) Common Voice among others (Schwoebel, 2021). Linear predictive coding (Kim; Kunigami) and/or PRAAT (Magdin et. al., 2019) synthesis will likely be a significant component of the project as a way to reproduce the user's voice. From there, we plan to explore ways the user will be able to interface with the program in order to adjust their voice quality in real time.
+
+\section{Timeline}\label{sec:page_size}
+
+There will be a significant learning curve in implementing this project, so the precise details are subject to change throughout the term. The general timeline resembles the following:
+
+\begin{enumerate}
+  \item Before commencing the project, it’s important that all members are on the same page and agree to and understand the project details and distribution of work. Amendments should be made to this timeline as research progresses and implementation details are decided on.
+  \item The first major component of the project is to effectively clone a vocal sample using either linear predictive coding or a text-to-speech algorithm. Using existing resources as reference material, we expect to have a working copy by early March.
+    \begin{itemize}
+      \item Feb. 25: consider best speech synthesis algorithm for our use case (Aileen)
+      \item Mar. 7: implement the algorithm to reproduce a target voice (Elijah)
+    \end{itemize}
+  \item The next step involves training a model to interpret timbral descriptors with respect to voice. This will include deciding on whether to support a discrete number of descriptors, and labelling dataset samples with those descriptors. Alternatively, some descriptors can be trained by applying DSP-based effects (e.g., a breathiness effect) to the dataset. This should be ready by mid-March.
+    \begin{itemize}
+      \item Feb. 28: determine which descriptors to use, if a restricted set (Isaiah)
+      \item Mar. 11: generate dataset with descriptor labels (Aileen, Elijah, Isaiah)
+    \end{itemize}
+  \item With a replica of the user’s voice and a dataset populated with timbral descriptors, use input descriptors to favour particular voices in the dataset to resynthesize the user’s voice.
+    \begin{itemize}
+      \item Mar. 25: implement vocal resynthesis favouring dataset voices corresponding to given timbral descriptors (Isaiah)
+      \item Apr. 4: create a minimal UI (Aileen)
+      \item Apr. 4: final testing (Aileen, Elijah, Isaiah)
+      \item Apr. 11: final adjustments (Elijah)
+    \end{itemize}
+\end{enumerate}
+
+% For BibTeX users:
+%\bibliography{ISMIRtemplate}
+\begin{thebibliography}{citations}
+\bibitem{Antoni and Speechtools Ltd.}
+Antoni, C., Speechtools Ltd. (2013). ChristellaVoiceUp. Accessed: Feb. 18, 2025 [Online.] Available: \url{https://www.christellaantoni.co.uk/transgender-voice/voiceupapp/}
+
+\bibitem{Alter et. al.}
+Alter, I. L., Chadwick, K. A., Andreadis, K., Coleman, R., Pitti, M., Ezell, J.M., & Rameau, A. “Developing a mobile application for gender‐affirming voice training: A community‐engaged approach“ Laryngoscope Investig Otolaryngol. 2024. DOI: 10.1002/lio2.70043 Accessed: Feb. 13, 2025. [Online.] Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC11645500}
+
+\bibitem{Barkmeier-Kraemer et. al.}
+Barkmeier-Kraemer, J. M., Craig, J. N., Harmon, A. B., Hillman, R. R., Jacobson, J., Patel, R. R., Ruddy, B. H., Stemple, J. C., Sumida, Y. A., Tanner, K., Theis, S. M.,  van Mersbergen, M. R., \& Verdun, L. P. “Voice Disorders.” asha.org. Accessed: Feb. 12, 2025. [Online.] Available: \url{https://www.asha.org/practice-portal/clinical-topics/voice-disorders}
+
+\bibitem{DevExtras}
+DevExtras. (2018). Voice Tools. Accessed: Feb. 18, 2025. [Online.] Available: \url{https://devextras.com/voicetools/}
+
+\bibitem{Hawley \& Hancock: 24}
+Hawley, J. L. \& Hancock, A. B. “Incorporating Mobile App Technology in Voice Modification Protocol for Transgender Women.” Journal of Voice. 2024. DOI: 10.1016/j.jvoice.2021.09.001. Accessed: Feb. 11, 2025. [Online.] Available:
+\url{https://www.sciencedirect.com/science/article/abs/pii/S089219972100299X}
+
+\bibitem{Jadoul et al.: 24}
+Jadoul, Y., Boer, B. \& Ravignani, A. “Parselmouth for bioacoustics: automated acoustic analysis in Python.” The International Journal of Animal Sound and its Recording. 2024. DOI: 10.1080/09524622.2023.2259327. Accessed: Feb. 11, 2025. [Online.] Available: \url{https://iris.uniroma1.it/retrieve/ad22f915-c173-46fb-8c71-5f635b0f16f3/Jadoul_etal2024_Parselmouth%20for%20bioacoustics%20%20automated%20acoustic%20analysis%20in%20Python-3.pdf}
+
+\bibitem{Kim}
+Kim, H. “Linear Predictive Coding is All-Pole Resonance Modeling.” ccrma.stanford.edu. Accessed Feb. 12, 2025. Available: \url{https://ccrma.stanford.edu/~hskim08/lpc}
+
+\bibitem{Kunigami: 21}
+Kunigami, G. “Linear Predictive Coding in Python.” kuniga.ma. Accessed: Feb, 2025. [Online.] Available: \url{https://www.kuniga.me/blog/2021/05/13/lpc-in-python.html}
+
+\bibitem{Magdin et al.: 19}
+Magdin, M., Sulka, T., Tomanová, J., \& Vozar, M. “Voice Analysis Using PRAAT Software and Classification of User Emotional State.” International Journal of Interactive Multimedia and Artificial Intelligence. 2019. DOI:10.9781/ijimai.2019.03.004. Accessed: Feb. 10, 2025. [Online.] Available: \url{https://www.researchgate.net/publication/331881418_Voice_Analysis_Using_PRAAT_Software_and_Classification_of_User_Emotional_State}
+
+\bibitem{Mozilla}
+Mozilla. (2024). Common Voice. Accessed: Feb. 18, 2025. [Online.] Available: \url{https://commonvoice.mozilla.org/en/datasets}
+
+\bibitem{Schwoebel}
+Schwoebel, J. (2021). Voice Datasets. Accessed: Feb. 18, 2025. [Online.] Available: \url{https://commonvoice.mozilla.org/en/datasets}
+
+\bibitem{Seek \& Nitz}
+Seek, D. \& Nitz, C. (2020). Voice Pitch Analyzer. Accessed: Feb. 18, 2025. [Online.] Available: \url{https://voicepitchanalyzer.app}
+
+
+\end{thebibliography}
+% For non BibTeX users:
+%\begin{thebibliography}{citations}
+% \bibitem{Author:17}
+% E.~Author and B.~Authour, ``The title of the conference paper,'' in {\em Proc.
+% of the Int. Society for Music Information Retrieval Conf.}, (Suzhou, China),
+% pp.~111--117, 2017.
+%
+% \bibitem{Someone:10}
+% A.~Someone, B.~Someone, and C.~Someone, ``The title of the journal paper,''
+%  {\em Journal of New Music Research}, vol.~A, pp.~111--222, September 2010.
+%
+% \bibitem{Person:20}
+% O.~Person, {\em Title of the Book}.
+% \newblock Montr\'{e}al, Canada: McGill-Queen's University Press, 2021.
+%
+% \bibitem{Person:09}
+% F.~Person and S.~Person, ``Title of a chapter this book,'' in {\em A Book
+% Containing Delightful Chapters} (A.~G. Editor, ed.), pp.~58--102, Tokyo,
+% Japan: The Publisher, 2009.
+%
+%\end{thebibliography}
+
+\end{document}
