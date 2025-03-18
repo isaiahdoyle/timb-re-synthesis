@@ -21,7 +21,7 @@
 % Title. Please use IEEE-compliant title case when specifying the title here,
 % as it has implications for the copyright notice
 % ------
-\title{Project Specification for CSC 475 \conferenceyear}
+\title{Project Specification for CSC 475 \conferenceyear: TransVox}
 
 % Note: Please do NOT use \thanks or a \footnote in any of the author markup
 
@@ -74,7 +74,7 @@
 
 \begin{document}
 
-\maketitle
+\maketitle{}
 
 \begin{abstract}
   The state of programs designed to support voice training are lacking with respect to timbral nuance. For trans people undergoing voice training, available applications tend to favour pitch as the primary – or in some cases sole – measure of progress. To accommodate the many parameters that factor into voice perception, we propose a tool to allow users to mimic a resynthesized version of their voice using applied timbral descriptors.
@@ -82,77 +82,134 @@
 
 \section{Introduction}\label{sec:introduction}
 
-This project is a component of a larger application that supports people undergoing voice training in developing their preferred vocal timbre by mimicking a synthesized (or otherwise modified) version of their voice with any desired timbral modifications. Current applications (DevExtras, 2018; Seek \& Nitz, 2020; Antoni \& Speechtools Ltd., 2013) rely largely on pitch to distinguish vocal characteristics. The human voice is far more nuanced than this, and as such timbral development of those undergoing voice training is paramount to the users’ success (Hawley \& Hancock, 2024). Semantic timbral descriptors (e.g., breathier, huskier, higher) will be given by the user to apply to a recording of their voice, and the resulting output can be tweaked further using additional descriptors. By using the user’s voice as the primary input source, our goal is to promote a healthy and informed way to explore the timbral possibilities of one’s voice. Analysis of the user’s voice will be detailed with respect to a number of timbral descriptors and made available through an accessible user interface, such that the program can be used as a tool for speech pathologists and the public (e.g., trans people seeking a more feminine/masculine/neutral voice, people with speech impairments (Barkmeier-Kraemer et. al), voice actors) alike.
+This project is a component of a larger application that supports people undergoing voice training in developing their preferred vocal timbre by mimicking a synthesized version of their voice with any desired timbral modifications. Current applications [1], [2], [3], [4] have relied largely on pitch to distinguish vocal characteristics. Vocal perception is more complex than this, and as such timbral development of those undergoing voice training is paramount to the users’ success [5]. Semantic timbral descriptors (e.g., breathier, huskier, higher) will be given by the user to apply to a recording of their voice, and the resulting output can be tweaked further using additional descriptors.
+
+By using the user’s voice as the primary input source, our goal is to promote a healthy and informed way to explore the timbral possibilities of one’s voice. The long term goal is to package this into an acessible vocal cooach, acting as a tool for speech pathologists and the public (e.g., trans people seeking a more feminine/masculine/neutral voice, people with speech impairments [6], voice actors).
+
+This document first outlines project goals, then tools and resources used during development. A predicted timeline of work to be completed follows, concluding with a log of work done to date and their results.
+
+
+\section{Goals}\label{sec:page_size}
+\begin{enumerate}
+    \item Basic goals include being able to have code that can adjust and change the user's voice per their specifications. We want to include different options to re-synthesize the given audio and have it return a natural-sounding voice. This would include pitch, breathiness and other textures as mentioned previously.
+    \item Realistic goals include having a method that lets the user upload their audio to our program so that they can adjust their audio. This can be done using a simple HTML page where a user can upload and choose which adjustments they would like to do. Adjustments would be made in set intervals where the user would be able to choose their own levels of adjustment.
+    \item A stretch goal would to be able to create a detailed and customized interface for the user to be able to interact with. This would include more specific JavaScript interactive objects such as dials, fine tune levels and options. Design would be initially done in Figma and then would be translated to HTML/CSS/JS format to create a memorable, interactive interface.
+\end{enumerate}
 
 \section{Methodology}
 
-We plan on using Python as our coding language for this project. We anticipate using libraries like Coqui TTS, Parselmouth (Jadoul., Boer, \& Ravignani, 2024), and Librosa to support vocal analysis and synthesis steps. For testing, we plan on using our own voices and possibly the voices of other volunteers. Any training will utilize publicly available datasets like Mozilla’s (2024) Common Voice among others (Schwoebel, 2021). Linear predictive coding (Kim; Kunigami) and/or PRAAT (Magdin et. al., 2019) synthesis will likely be a significant component of the project as a way to reproduce the user's voice. From there, we plan to explore ways the user will be able to interface with the program in order to adjust their voice quality in real time.
+Python is the driving coding language for this project. FreeVC [7] has proven to be a wealth of information regarding voice cloning, featuring the implementation of libraries like pytorch [8] and Librosa [9] to support speech analysis and synthesis using a fine-tuned checkpoint of Microsoft's WavLM model [10]. FreeVC first extracts a generalized timbre (i.e., mel-frequency cepstral coefficients) spectrogram from a sample of a 'target' voice, then uses WavLM to extract the content (i.e., words spoken) from a sample of a 'source' voice. A custom transformer is then used to infer a .wav file containing the content from the source speaker using the timbre of the target speaker.
+
+
+We have used FreeVC as a guideline for our own implementation of speech resynthesis, and we plan on using similar libraries to train a separate model to allow timbral adjustments to be made to the output (by intercepting and modifying the MFCC spectrogram before resynthesis).
+
 
 \section{Timeline}\label{sec:page_size}
 
-There will be a significant learning curve in implementing this project, so the precise details are subject to change throughout the term. The general timeline resembles the following:
+There will be a significant learning curve for all members while implementing this project, so the precise details are subject to change throughout the term. The following timeline represents the work undergone as of March 18, 2025, and expected work to be completed throughout the rest of the term:
 
 \begin{enumerate}
-  \item Before commencing the project, it’s important that all members are on the same page and agree to and understand the project details and distribution of work. Amendments should be made to this timeline as research progresses and implementation details are decided on.
-  \item The first major component of the project is to effectively clone a vocal sample using either linear predictive coding or a text-to-speech algorithm. Using existing resources as reference material, we expect to have a working copy by early March.
+  \item Before commencing the project, it was important that all members are on the same page and agree to and understand the project details and distribution of work. Amendments would be made to this timeline as research progresses and implementation details are decided on.
+  \item There are two major components to the project - the first being effectively cloning a vocal sample by any means. We eventually decided on using FreeVC as a primary reference. We anticipated having a working model by early March, but the following dates are when related work was completed:
     \begin{itemize}
-      \item Feb. 25: consider best speech synthesis algorithm for our use case (Aileen)
-      \item Mar. 7: implement the algorithm to reproduce a target voice (Elijah)
+      \item Mar. 10: discovered FreeVC (Isaiah)
+      \item Mar. 13: got FreeVC working, effectively cloning a speech sample via resynthesis (Isaiah)
+      \item Mar. 18: developed a proof of concept for adjustment of timbral quality by manual intervention (Isaiah)
     \end{itemize}
-  \item The next step involves training a model to interpret timbral descriptors with respect to voice. This will include deciding on whether to support a discrete number of descriptors, and labelling dataset samples with those descriptors. Alternatively, some descriptors can be trained by applying DSP-based effects (e.g., a breathiness effect) to the dataset. This should be ready by mid-March.
+  \item The second component involves the development of a trained model to modify vocal timbre. This includes deciding on the number of descriptors we want to use (if a finite number), and labelling a dataset of speech samples with those descriptors. We found that using effects that mimic timbral changes (e.g., breathiness by linear predictive coding [11]) would be an effective way to generate this dataset. This was anticipated to be completed by mid-March.
     \begin{itemize}
-      \item Feb. 28: determine which descriptors to use, if a restricted set (Isaiah)
-      \item Mar. 11: generate dataset with descriptor labels (Aileen, Elijah, Isaiah)
+      \item Mar. 8: determined which descriptors to use (Aileen, Elijah, Isaiah)
+      \item Mar. 15: implemented a pitch shifting effect (Elijah)
+      \item Mar. 17: implemented an effect to adjust perceived 'roughness' of a voice (Aileen)
     \end{itemize}
-  \item With a replica of the user’s voice and a dataset populated with timbral descriptors, use input descriptors to favour particular voices in the dataset to resynthesize the user’s voice.
+  \item What remains is to complete a labelled dataset to train an MFCC classification model with, and use it to infer the adjustments neeed to be made to an aribtrary MFCC spectrogram (representing a voice) in order to mold into a desired timbre.
     \begin{itemize}
-      \item Mar. 25: implement vocal resynthesis favouring dataset voices corresponding to given timbral descriptors (Isaiah)
+      \item Mar. 28: complete a labelled dataset mapping MFCC spectrograms to timbres (Aileen, Elijah, Isaiah)
+      \item Apr. 1: train a model on said dataset, and use it to infer adjustments to any particular MFCC spectrogram (Isaiah)
       \item Apr. 4: create a minimal UI (Aileen)
       \item Apr. 4: final testing (Aileen, Elijah, Isaiah)
       \item Apr. 11: final adjustments (Elijah)
     \end{itemize}
 \end{enumerate}
 
+\section{Experiments}\label{sec:page_size}
+
+We began by exploring a number of potential methods in trying to get past the initial phase of resynthesizing a recording of human speech. Going in we knew it would be critical, due the intent behind the project, for the output to be realistic (i.e., imitable by a human within reason), and to have manual control over the timbre of the output. The first method we explored was the application of linear predictive coding, as we were all familiar with historical example of using LPC for vocal modifications like pitch shifting [12]. As we explored using LPC, it became clear that the output audio sounded rough and robotic, which was a deal-breaker since we required that the output sound as natural as possible.
+
+Mel frequency cepstral coefficients were considered early on due to their generalized, but effective, characterization of timbre, and its proven applications in speech processing [13]. Although MFCCs are indeed able to extract vocal features and represent an audio file's timbral characteristics - even going as far as to be able to identify the speaker's emotion [14] - it seemed to us that MFCCs lacked the granularity required to faithfully re-synthesize an audio sample. Unlike frequency spectra, choosing a discrete number of MFCCs to analze results in loss of information, making it impossible to invert the operation to obtain the unchanged input. That is, using a sample's MFCCs to re-synthesize the audio results in a thin sound, coarse and robotic due to the temporal information lost in the process.
+
+As neither liner predictive coding or mel frequency cepstral co-efficients seemed to be able to retrieve the information we needed from the audio as well as provide enough information to re-create the audio, we detoured toward a simpler approach. In the interest of getting a tangible proof of concept, we decided to program distinct functions for adjusting the pitch, tone, breathiness, and roughness associated with input audio. With these functions, we proposed that users would adjust a number of sliders mapping to the prominence of the aforementioned effects, thus removing the need for any kind of speech synthesis.
+
+We were still keen on researching speech re-synthesis though, so we allocated time and effort into diving deeper. We eventually stumbled upon source code claiming to effectively re-synthesize input speech using the content from one speaker using the timbre of another. FreeVC [7] works by first encoding speech information (i.e., the words spoken) by providing the raw 'source' waveform to a pre-trained WavLM model and bottleneck extractor. The timbre of another 'target' waveform is then extracted by computing a mel-spectrogram, such that the content of the source waveform and mel-spectogram of the target waveform are used as input to a HiFi-GAN v1 vocoder [15] for synthesis.
+
+The approach Li et. al [16] employ allow for the modification of MFCC timbral information during inference, thus opening the possiblity of timbral adjustment. This motivated us to get back on track with our original plans, pursuing the use of MFCC modification as a means for timbral adjustment. We spent some time tinkering with the FreeVC source code to familiarize ourselves with its inner workings and explore the timbral possibilities of this approach.
+
+Each frame of the extracted mel-spectrogram from the target waveform, by FreeVC's defaults, contains 80 MFCCs taken at intervals of 320 samples with a window size of 1280 samples. These are organized in a pytorch \texttt{tensor} object, which takes a form similar to a 3-dimensional numpy array, supporting the same operations for data access and modification (e.g., \texttt{tensor([[[A1, A2, ..., AN], [B1, B2, ..., BN], ...]])} represents a mel-spectrogram of some number of N-coefficient mel-spectra). Thus, we were able to manually modify the mel-spectrogram before resynthesis to observe its effects. The following is an example of halving the magnitude of the 40 upper MFCCs (the upper half of the mel-spectrum) for all spectra in the extracted mel-spectrogram:
+
+\begin{verbatim}
+mel_spectrogram[:, 40:, :] *= 0.5
+\end{verbatim}
+
+The quality of the results were varied, which is to be expected given the brute-force nature of the experimental procedure. There was undeniably, however, considerable timbral change in the synthesized output, so we are optimistic that a more informed approach to MFCC modification will allow the program to adjust the synthesized timbre in an intuitive way.
+
+
+\section{Future Work}\label{sec:page_size}
+
+In order to implement intuitive exploration of timbral parameters, the simplification of timbral adjustment is critical. We don't want users to have to consider the relative weights of thousands of MFCCs to adjust timbre, so the next critical step is to construct a dataset that can be used to train a model on MFCCs and their perceived timbral properties. In order for this to be effective, the dataset will need to be of significant size. Thus, it may also prove beneficial to create an interface we can use to speed up the process of labelling data. More importantly, how exactly timbre will be described (i.e., what descriptors? how many?) will need to be set in stone to ensure that labelling is consistent.
+
+We will also need to consider how we want users to give input to how they want to affect their vocal timbre. An advanced final product may implement a natural language processing model to support textual specification of any number of timbral descriptors. A cheaper alternative may be to resort to a series of sliders corresponding to particular timbre descriptors (e.g., 'breathy', 'nasally', etc.) which reflect exactly the descriptors used during labelling.
+
+Once we have solidified a mapping of user input to MFCC-represented timbre, a trained model will be used to infer adjustments to make to the source mel-spectrogram in order to produce a waveform that is close enough to the user's voice to be realistically imitable, but still desirably affect the timbre in a meaningful way.
+
 % For BibTeX users:
 %\bibliography{ISMIRtemplate}
 \begin{thebibliography}{citations}
-\bibitem{Antoni and Speechtools Ltd.}
-Antoni, C., Speechtools Ltd. (2013). ChristellaVoiceUp. Accessed: Feb. 18, 2025 [Online.] Available: \url{https://www.christellaantoni.co.uk/transgender-voice/voiceupapp/}
-
-\bibitem{Alter et. al.}
-Alter, I. L., Chadwick, K. A., Andreadis, K., Coleman, R., Pitti, M., Ezell, J.M., & Rameau, A. “Developing a mobile application for gender‐affirming voice training: A community‐engaged approach“ Laryngoscope Investig Otolaryngol. 2024. DOI: 10.1002/lio2.70043 Accessed: Feb. 13, 2025. [Online.] Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC11645500}
-
-\bibitem{Barkmeier-Kraemer et. al.}
-Barkmeier-Kraemer, J. M., Craig, J. N., Harmon, A. B., Hillman, R. R., Jacobson, J., Patel, R. R., Ruddy, B. H., Stemple, J. C., Sumida, Y. A., Tanner, K., Theis, S. M.,  van Mersbergen, M. R., \& Verdun, L. P. “Voice Disorders.” asha.org. Accessed: Feb. 12, 2025. [Online.] Available: \url{https://www.asha.org/practice-portal/clinical-topics/voice-disorders}
-
 \bibitem{DevExtras}
-DevExtras. (2018). Voice Tools. Accessed: Feb. 18, 2025. [Online.] Available: \url{https://devextras.com/voicetools/}
-
-\bibitem{Hawley \& Hancock: 24}
-Hawley, J. L. \& Hancock, A. B. “Incorporating Mobile App Technology in Voice Modification Protocol for Transgender Women.” Journal of Voice. 2024. DOI: 10.1016/j.jvoice.2021.09.001. Accessed: Feb. 11, 2025. [Online.] Available:
-\url{https://www.sciencedirect.com/science/article/abs/pii/S089219972100299X}
-
-\bibitem{Jadoul et al.: 24}
-Jadoul, Y., Boer, B. \& Ravignani, A. “Parselmouth for bioacoustics: automated acoustic analysis in Python.” The International Journal of Animal Sound and its Recording. 2024. DOI: 10.1080/09524622.2023.2259327. Accessed: Feb. 11, 2025. [Online.] Available: \url{https://iris.uniroma1.it/retrieve/ad22f915-c173-46fb-8c71-5f635b0f16f3/Jadoul_etal2024_Parselmouth%20for%20bioacoustics%20%20automated%20acoustic%20analysis%20in%20Python-3.pdf}
-
-\bibitem{Kim}
-Kim, H. “Linear Predictive Coding is All-Pole Resonance Modeling.” ccrma.stanford.edu. Accessed Feb. 12, 2025. Available: \url{https://ccrma.stanford.edu/~hskim08/lpc}
-
-\bibitem{Kunigami: 21}
-Kunigami, G. “Linear Predictive Coding in Python.” kuniga.ma. Accessed: Feb, 2025. [Online.] Available: \url{https://www.kuniga.me/blog/2021/05/13/lpc-in-python.html}
-
-\bibitem{Magdin et al.: 19}
-Magdin, M., Sulka, T., Tomanová, J., \& Vozar, M. “Voice Analysis Using PRAAT Software and Classification of User Emotional State.” International Journal of Interactive Multimedia and Artificial Intelligence. 2019. DOI:10.9781/ijimai.2019.03.004. Accessed: Feb. 10, 2025. [Online.] Available: \url{https://www.researchgate.net/publication/331881418_Voice_Analysis_Using_PRAAT_Software_and_Classification_of_User_Emotional_State}
-
-\bibitem{Mozilla}
-Mozilla. (2024). Common Voice. Accessed: Feb. 18, 2025. [Online.] Available: \url{https://commonvoice.mozilla.org/en/datasets}
-
-\bibitem{Schwoebel}
-Schwoebel, J. (2021). Voice Datasets. Accessed: Feb. 18, 2025. [Online.] Available: \url{https://commonvoice.mozilla.org/en/datasets}
+DevExtras. (2018). Voice Tools. Accessed: Feb. 18, 2025. [Online]. Available: \url{https://devextras.com/voicetools/}
 
 \bibitem{Seek \& Nitz}
-Seek, D. \& Nitz, C. (2020). Voice Pitch Analyzer. Accessed: Feb. 18, 2025. [Online.] Available: \url{https://voicepitchanalyzer.app}
+D. Seek \& C. Nitz (2020). Voice Pitch Analyzer. Accessed: Feb. 18, 2025. [Online]. Available: \url{https://voicepitchanalyzer.app}
 
+\bibitem{Antoni and Speechtools Ltd.}
+C. Antoni and C. Speechtools Ltd. (2013). ChristellaVoiceUp. Accessed: Feb. 18, 2025 [Online]. Available: \url{https://www.christellaantoni.co.uk/transgender-voice/voiceupapp/}
+
+\bibitem{Alter et. al.}
+I.L. Alter, K.A. Chadwick, K. Andreadis, R. Coleman, M. Pitti, J.M. Ezell, & A. Rameau. “Developing a mobile application for gender‐affirming voice training: A community‐engaged approach“ \textit{Laryngoscope Investig Otolaryngol}. 2024. doi: 10.1002/lio2.70043. Accessed: Feb. 13, 2025. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC11645500}
+
+\bibitem{Hawley \& Hancock: 24}
+J.L. Hawley and A.B. Hancock. “Incorporating Mobile App Technology in Voice Modification Protocol for Transgender Women.” Journal of Voice. 2024. DOI: 10.1016/j.jvoice.2021.09.001. Accessed: Feb. 11, 2025. [Online]. Available:
+\url{https://www.sciencedirect.com/science/article/abs/pii/S089219972100299X}
+
+\bibitem{Barkmeier-Kraemer et. al.}
+J.M. Barkmeier-Kraemer, J.N. Craig, A.B. Harmon, R.R. Hillman, J. Jacobson, R.R. Patel, B.H. Ruddy, J.C. Stemple, Y.A. Sumida, K. Tanner, S.M Theis, M.R. van Mersbergen, \& L.P. Verdun. “Voice Disorders.” asha.org. Accessed: Feb. 12, 2025. [Online]. Available: \url{https://www.asha.org/practice-portal/clinical-topics/voice-disorders}
+
+\bibitem{Li et. al: 22}
+J. Li, W. Tu, and L. Xiao. “FreeVC: Towards High-Quality Text-Free One-Shot Voice Conversion,” \textit{arXiv preprint arXiv:2210.15418}, 2022.
+
+\bibitem{PyTorch}
+PyTorch, "pytorch," github.com. Acessed Mar. 18, 2025. [Online]. Available: \url{https://github.com/pytorch/pytorch}
+
+\bibitem{Librosa}
+Librosa, "librosa," github.com. Acessed Mar. 18, 2025. [Online]. Available: \url{https://github.com/librosa/librosa}
+
+\bibitem{WavLM}
+S Chen, C Wang, Z Chen, et al., “Wavlm: Large-scale self-supervised pre-training for full stack speech processing,” \textit{IEEE Journal of Selected Topics in Signal Processing}, 2022.
+
+\bibitem{}
+K. I. Nordstrom, G. Tzanetakis, and P. F. Driessen, "Transforming Perceived Vocal Effort and Breathiness
+Using Adaptive Pre-Emphasis Linear Prediction," \textit{IEEE TRANSACTIONS ON AUDIO, SPEECH, AND LANGUAGE PROCESSING}, vol. 16, no. 6, 2008.
+
+\bibitem{Sasahire \& Hashimoto: 95}
+Y. Sasahira and S. Hashimoto. “Voice Pitch Changing by Linear Predictive Coding Method to Keep the Singer’s Personal Timbre.” \textit{International Computer Music Conference}, (September 3-7) 1995. Available: \url{https://quod.lib.umich.edu/cgi/p/pod/dod-idx/voice-pitch-changing.pdf?c=icmc;idno=bbp2372.1995.118;format=pdf}
+
+\bibitem{Ittichaichareon et. al.: 12}
+C. Ittichaichareon, S. Suksri, and T. Yingthawornsuk. "Speech Recognition Using MFCC." \textit{International Conference on Computer Graphics, Simulation and Modeling}, (July 28-29) 2012. Available: \url{https://www.researchgate.net/publication/281446199_Speech_Recognition_using_MFCC}
+
+\bibitem{Lalithaa et. al: 15}
+S. Lalithaa, D. Geyasrutia, R. Narayanana, \& M. Shravani. "Emotion Detection using MFCC and Cepstrum Features." \textit{International Conference on Eco-friendly Computing and Communication Systems}. (2015) Available: \url{https://www.sciencedirect.com/science/article/pii/S1877050915031841?ref=cra_js_challenge&fr=RR-1}
+
+\bibitem{Kong et. al: 20}
+J Kong, J Kim, et al., “Hifi-gan: Generative adversarial networks for efficient and high fidelity speech synthesis," \textit{arXiv preprint arXiv:2010.05646}, 2020.
 
 \end{thebibliography}
 % For non BibTeX users:

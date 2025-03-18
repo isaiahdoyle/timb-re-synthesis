@@ -1,7 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1739947854 "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/specification/specification.tex" "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/specification/specification.pdf" "specification" 1739947855
-  "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/specification/specification.aux" 1739947854 8 a94a2480d3289e625eea47cd1b285758 ""
-  "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/specification/specification.tex" 1739947853 11662 c8293f09e51774c094af6974add7de3c ""
+["pdflatex"] 1742366455 "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/timb-re-synthesis/specification/specification.tex" "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/timb-re-synthesis/specification/specification.pdf" "specification" 1742366456
+  "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/timb-re-synthesis/specification/specification.aux" 1742366455 8 a94a2480d3289e625eea47cd1b285758 ""
+  "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/timb-re-synthesis/specification/specification.tex" 1742366455 20139 12c601d2668278a9c5c6b3852a766c31 ""
   "/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2020/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm" 1136768653 1292 bd42be2f344128bff6d35d98474adfe3 ""
@@ -68,10 +68,10 @@
   "cite.sty" 1739940838 26163 e187c14d5b81b3757d8de90dc6407aa4 ""
   "ismir.sty" 1739940896 10682 0a371f011b19203e32b0e110a7f6083a ""
   "specification.aux" 0 -1 0 "pdflatex"
-  "specification.tex" 1739947853 11662 c8293f09e51774c094af6974add7de3c ""
+  "specification.tex" 1742366455 20139 12c601d2668278a9c5c6b3852a766c31 ""
   (generated)
-  "specification.aux"
-  "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/specification/specification.pdf"
-  "specification.pdf"
-  "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/specification/specification.log"
   "specification.log"
+  "specification.aux"
+  "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/timb-re-synthesis/specification/specification.log"
+  "specification.pdf"
+  "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/timb-re-synthesis/specification/specification.pdf"
