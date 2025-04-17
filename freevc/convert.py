@@ -87,13 +87,13 @@ CONFIG: dict = {
 
 
 class FreeVC():
-    outdir: str = 'output/freevc'
+    outdir: str = 'output'
     smodel: SpeakerEncoder  # timbre
     cmodel: WavLM  # content
 
     def __init__(
             self,
-            outdir: str = 'output/freevc',
+            outdir: str = 'output',
             ptfile: str = PTFILE):
         os.makedirs(outdir, exist_ok=True)
 
@@ -137,8 +137,10 @@ class FreeVC():
 
         return lines
 
-    def get_timbre(self, tgt: str) -> torch.Tensor:
-        print(f'Getting timbre from {tgt}...', end='')
+    def get_timbre(self, tgt: str, output: bool = True) -> torch.Tensor:
+        if output:
+            print(f'Getting timbre from {tgt}...', end='')
+
         wav_tgt, _ = librosa.load(tgt, sr=CONFIG["data"]["sampling_rate"])
         wav_tgt, _ = librosa.effects.trim(wav_tgt, top_db=20)
 
@@ -161,15 +163,22 @@ class FreeVC():
                 CONFIG["data"]["mel_fmax"]
             )
 
-        print(' done!')
+        if output:
+            print(' done!')
+
         return timbre
 
-    def get_content(self, src: str) -> torch.Tensor:
-        print(f'Getting content from {src}...', end='')
+    def get_content(self, src: str, output: bool = True) -> torch.Tensor:
+        if output:
+            print(f'Getting content from {src}...', end='')
+
         wav_src, _ = librosa.load(src, sr=CONFIG["data"]["sampling_rate"])
         wav_src = torch.from_numpy(wav_src).unsqueeze(0).cpu()
         content = utils.get_content(self.cmodel, wav_src)
-        print(' done!')
+
+        if output:
+            print(' done!')
+
         return content
 
     def synthesize(self,
