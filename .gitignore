@@ -171,3 +171,10 @@ cython_debug/
 .pypirc
 
 dataset/
+input/
+output/
+virtenv/
+freevc/checkpoints/
+freevc/wavlm/*.pt
+.DS_Store
+*.pth

@@ -1,4 +1,4 @@
-'''A minimzed version of FreeVC by J. Li, W. Tu, and L. Xiao.
+'''A minimized version of FreeVC by J. Li, W. Tu, and L. Xiao.
 
 GitHub: https://github.com/OlaWod/FreeVC
 Paper: https://arxiv.org/abs/2210.15418
@@ -16,9 +16,11 @@ import os
 import torch
 import librosa
 import logging
-from scipy.io.wavfile import write
-
+import numpy as np
 import freevc.utils as utils
+
+from typing import Union
+from scipy.io.wavfile import write
 from freevc.models import SynthesizerTrn
 from freevc.wavlm import WavLM
 from freevc.mel_processing import mel_spectrogram_torch
@@ -27,7 +29,8 @@ from freevc.speaker_encoder.voice_encoder import SpeakerEncoder
 
 logging.getLogger('numba').setLevel(logging.WARNING)
 
-PTFILE: str = 'freevc/checkpoints/freevc-s.pth'
+PTFILE_SPK: str  = 'freevc/checkpoints/freevc.pth'
+PTFILE_MFCC: str = 'freevc/checkpoints/freevc-s.pth'
 
 # From freevc(-s).json
 CONFIG: dict = {
@@ -88,14 +91,21 @@ CONFIG: dict = {
 
 class FreeVC():
     outdir: str = 'output'
+    use_spk: bool = False  # False for MFCCs, True for SSL representation
+    ptfile: str = PTFILE_MFCC  # FreeVC checkpoint (.pth) file
     smodel: SpeakerEncoder  # timbre
     cmodel: WavLM  # content
 
     def __init__(
             self,
             outdir: str = 'output',
-            ptfile: str = PTFILE):
+            use_spk: bool = False):
         os.makedirs(outdir, exist_ok=True)
+
+        if use_spk:
+            CONFIG['model']['use_spk'] = True
+            self.use_spk = True
+            self.ptfile = PTFILE_SPK
 
         print("Loading model...")
         self.net_g = SynthesizerTrn(
@@ -105,14 +115,14 @@ class FreeVC():
         _ = self.net_g.eval()
 
         print("Loading checkpoint...")
-        _ = utils.load_checkpoint(ptfile, self.net_g, None, True)
+        _ = utils.load_checkpoint(self.ptfile, self.net_g, None, True)
 
         print("Loading WavLM for content...")
         self.cmodel = utils.get_cmodel(0)
 
-        if CONFIG["model"]["use_spk"]:
+        if use_spk:
             print("Loading speaker encoder...")
-            self.smodel = SpeakerEncoder('speaker_encoder/ckpt/pretrained_bak_5805000.pt')
+            self.smodel = SpeakerEncoder('freevc/speaker_encoder/ckpt/pretrained_bak_5805000.pt')
 
     def parse_text(self, path: str) -> list[tuple]:
         """Process a .txt file containing source/target/output files.
@@ -137,20 +147,50 @@ class FreeVC():
 
         return lines
 
-    def get_timbre(self, tgt: str, output: bool = True) -> torch.Tensor:
-        if output:
-            print(f'Getting timbre from {tgt}...', end='')
+    def get_timbre(
+            self,
+            tgt: Union[str, np.ndarray],
+            samplerate: int = None,
+            output: bool = True) -> torch.Tensor:
+        """Get the MFCC cepstrogram of an audio stream.
 
-        wav_tgt, _ = librosa.load(tgt, sr=CONFIG["data"]["sampling_rate"])
+        Args:
+            tgt: The audio stream, as either a path pointing to a .wav file or
+              an ndarray containing the samples. If an ndarray, samplerate must
+              also be specified.
+            samplerate: The sampling rate of tgt, if an ndarray.
+            output: Write progress to stdout.
+
+        Returns:
+            A tensor of size [1, 80, n] representing an array of 80 MFCCs for
+            all n frames of the cepstrogram representation.
+        """
+        is_path = isinstance(tgt, str)
+
+        if output:
+            print(
+                'Getting timbre' + (f' from {tgt}...' if is_path else '...'),
+                end=''
+            )
+
+        if is_path:
+            wav_tgt, _ = librosa.load(tgt, sr=CONFIG["data"]["sampling_rate"])
+        else:
+            wav_tgt = librosa.resample(
+                tgt,
+                orig_sr=samplerate,
+                target_sr=CONFIG['data']['sampling_rate']
+            )
+
         wav_tgt, _ = librosa.effects.trim(wav_tgt, top_db=20)
 
-        if CONFIG["model"]["use_spk"]:
-            # Use SpeakerEncoder to analyze timbre
+        if self.use_spk:
+            # Use SpeakerEncoder to represent timbre
             timbre = self.smodel.embed_utterance(wav_tgt)
             timbre = torch.from_numpy(timbre).unsqueeze(0).cpu()
 
         else:
-            # Use mel-spectrogram to analyze timbre
+            # Use mel-cepstrogram to represent timbre
             wav_tgt = torch.from_numpy(wav_tgt).unsqueeze(0).cpu()
             timbre = mel_spectrogram_torch(
                 wav_tgt,
@@ -168,11 +208,28 @@ class FreeVC():
 
         return timbre
 
-    def get_content(self, src: str, output: bool = True) -> torch.Tensor:
-        if output:
-            print(f'Getting content from {src}...', end='')
+    def get_content(
+            self,
+            src: Union[str, np.ndarray],
+            samplerate: int = None,
+            output: bool = True) -> torch.Tensor:
+        is_path = isinstance(src, str)
 
-        wav_src, _ = librosa.load(src, sr=CONFIG["data"]["sampling_rate"])
+        if output:
+            print(
+                'Getting content' + (f' from {src}...' if is_path else '...'),
+                end=''
+            )
+
+        if is_path:
+            wav_src, _ = librosa.load(src, sr=CONFIG["data"]["sampling_rate"])
+        else:
+            wav_src = librosa.resample(
+                src,
+                orig_sr=samplerate,
+                target_sr=CONFIG['data']['sampling_rate']
+            )
+
         wav_src = torch.from_numpy(wav_src).unsqueeze(0).cpu()
         content = utils.get_content(self.cmodel, wav_src)
 
@@ -181,11 +238,12 @@ class FreeVC():
 
         return content
 
-    def synthesize(self,
+    def synthesize(
+            self,
             src: torch.Tensor,
             tgt: torch.Tensor,
             output: str) -> None:
-        if CONFIG["model"]["use_spk"]:
+        if self.use_spk:
             audio = self.net_g.infer(src, g=tgt)
         else:
             audio = self.net_g.infer(src, mel=tgt)
