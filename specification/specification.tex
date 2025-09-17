@@ -21,17 +21,16 @@
 % Title. Please use IEEE-compliant title case when specifying the title here,
 % as it has implications for the copyright notice
 % ------
-\title{Project Specification for CSC 475 \conferenceyear: TransVox}
+\title{TransVox: The Role of Digital Tools in Voice Training and the Development of a Gender-Diverse Speech Dataset}
 
 % Note: Please do NOT use \thanks or a \footnote in any of the author markup
 
 % Single address
 % To use with only one author or several with the same address
 % ---------------
-%\oneauthor
- %{Isaiah Doyle, Aileen Klassen, Elijah Larmer}
-
-  %{University of Victoria\\\texttt{anonymous@ismir.net}}
+\author{
+    Isaiah Doyle\\University of Victoria\\\texttt{isaiahdoyle@uvic.ca}
+}
 
 
 % Two addresses
@@ -42,13 +41,13 @@
 
 %Three addresses
 %--------------
-\author{
-   \textbf{Isaiah Doyle}\\ {University of Victoria \\\texttt{isaiahdoyle@uvic.ca}}
-   \and
-   \textbf{Aileen Klassen}\\ {University of Victoria\\\texttt{aileenklassen@uvic.ca}}
-   \and
-   \textbf{Elijah Larmer}\\ {University of Victoria \\\texttt{elijahlarmer@uvic.ca}}
-}
+% \author{
+%    \textbf{Isaiah Doyle}\\ {University of Victoria \\\texttt{isaiahdoyle@uvic.ca}}
+%    \and
+%    \textbf{Aileen Klassen}\\ {University of Victoria\\\texttt{aileenklassen@uvic.ca}}
+%    \and
+%    \textbf{Elijah Larmer}\\ {University of Victoria \\\texttt{elijahlarmer@uvic.ca}}
+% }
 
 % Four or more addresses
 % OR alternative format for large number of co-authors
@@ -64,7 +63,7 @@
 
 % For the author list in the Creative Common license, please enter author names.
 % Please abbreviate the first names of authors and add 'and' between the second to last and last authors.
-\def\authorname{Doyle, I., Klassen, A., \& Larmer, E.}
+\def\authorname{I. Doyle}
 
 % Optional: To use hyperref, uncomment the following.
 % \usepackage[bookmarks=false,pdfauthor={\authorname},pdfsubject={\pdfsubject},hidelinks]{hyperref}
@@ -78,351 +77,152 @@
 
 
 \begin{abstract}
-  The state of programs designed to support voice training are lacking with respect to timbral nuance. For trans people undergoing voice training, available applications tend to favour pitch as the primary – or in some cases sole – measure of progress. To accommodate the many parameters that factor into voice perception, we propose a tool to allow users to mimic a resynthesized version of their voice using applied timbral descriptors.
+    Digital tools have made a significant impact on the state of vocal training for transgender individuals, from online communities to acoustic measurement tools. This latter group of digital tools tend to rely largely – or in many cases solely – on measurements of average fundamental pitch to determine the user's adherence to a particular gender ideal. Contemporary literature shows that our aural perception of gender is based on numerous other timbral characteristics that are not measured by applications on the market today. To accommodate the many parameters that factor into vocal perception, a program was proposed by Doyle et al. \cite{doyle2025} to resynthesize speech samples with applied timbral modifications, allowing users to train toward their preferred voice by vocal imitation. This paper outlines the role of digital tools in vocal training, then discusses further development of \cite{doyle2025}, and proposes the informed creation of a diverse speech dataset to improve the program's performance.
 \end{abstract}
 
 
 \section{Introduction}\label{sec:introduction}
 
-This project is a component of a larger application that supports people undergoing voice training in developing their preferred vocal timbre by mimicking a synthesized version of their voice with any desired timbral modifications. Current applications \cite{DevExtras}, \cite{SeekAndNitz}, \cite{AntoniAndSpeechtools}, \cite{Alter24} have relied largely on pitch to distinguish vocal characteristics. Vocal perception is more complex than this, and as such timbral development of those undergoing voice training is paramount to users’ success \cite{HawleyAndHancock24}. Semantic timbral descriptors (e.g., breathier, huskier, higher) will be given by the user to apply to a recording of their voice, and the resulting output can be tweaked further using additional descriptors.
+Transgender (hereafter referred to as \textit{trans}) individuals may face voice-gender incongruence, motivating said individuals to seek a vocal timbre that more accurately reflects their desired gender expression. Voice training is widely considered to be an effective method for those seeking voice-gender congruence, ideally under the guidance of a speech-language pathologist (SLP) \cite{oates2023}.
 
-By using the user’s voice as the primary input source, our goal is to promote a healthy and informed way to explore the timbral possibilities of one’s voice. The long term goal is to package this into an accessible vocal coach, acting as a tool for speech pathologists and the public (e.g., trans people seeking a more feminine/masculine/neutral voice, people with speech impairments \cite{Barkmeier-Kraemer}, voice actors).
+Vocal training for trans people is distinct from traditional speech therapy in that its participants are unlikely to have a voice disorder, rather wishing to align particular features of their voice to those of a voice that is more likely to be perceived as their gender identity. This might look like a trans woman seeking a more feminine voice, a trans man seeking a more masculine voice, or those seeking a more flexible voice that does not strictly conform to either pole of binary gender.
 
-This document first outlines project goals, then tools and resources used during development. A timeline of work follows, concluding with a log of experiments and their results.
+While some trans people are able to seek the support of a SLP to explore the capabilities of their voice in an open environment, others opt toward a self-guided approach using advice from others in online communities \cite{kowalchuck2020} or applications designed to support voice training (e.g., \cite{devextras2018, nitzandseek2020, speechtools2013}), due to the accessibility of digital tools.
 
+The satisfaction of individuals undergoing voice training depends on habitual timbral characteristics in addition to average pitch and pitch range. However, modern applications designed to support voice training \cite{devextras2018, nitzandseek2020, speechtools2013} tend to rely on fundamental pitch as the primary measure of progress. While pitch is certainly a factor in the perception of gender through the voice, other timbral aspects of the voice are also critical in expressing a particular gender identity. For this reason, digital tools that favour pitch over all other timbral parameters fail to deliver the same comprehensive feedback that regular instruction from a SLP would be capable of.
 
-\section{Goals}\label{sec:page_size}
-\begin{enumerate}
-    \item Basic goals include being able to have code that can adjust and change the user's voice per their specifications. We want to include different options to re-synthesize the given audio and have it return a natural-sounding voice. This would include pitch, breathiness and other textures as mentioned previously.
-    \item A step up is to include having a method that lets the user upload their audio to our program so that they can adjust their audio. This can be done using a simple HTML page where a user can upload and choose which adjustments they would like to do. Adjustments would be made in set intervals where the user would be able to choose their own levels of adjustment.
-    \item A stretch goal would to be able to create a detailed and customized interface for the user to be able to interact with. This would include more specific JavaScript interactive objects such as dials, fine tune levels and options. Design would be initially done in Figma and then would be translated to HTML/CSS/JS format to create a memorable, interactive interface.
-\end{enumerate}
+While no comprehensive structured program for voice training exists, current programs commonly begin with foundational training to promote vocal health and flexibility before moving on to realize specific timbral goals \cite{oates2023}. The latter vocal transformation stage can look a number of ways; one such strategy, once initial vocal manipulation skills are mastered, is vocal imitation. In the imitation model, SLPs will either use their own voice to demonstrate vocal techniques to their clients or use a recording a voice demonstrating some target. The client is then expected to imitate the target voice to the best of their ability using techniques taught by the SLP.
 
+Although vocal imitation is an effective method of habitual learning (particularly when delivered alongside detailed techniques from a SLP) \cite{ohlsson2024}, the SLP-driven or recording-driven target may fail to reflect the distinct properties of the participant's voice like accent or prosody, adding a level of guesswork to the imitation process. With this in mind, Doyle et al. \cite{doyle2025} sought to develop a proof-of-concept for a program capable of converting a speech sample from a \textit{source} voice into a \textit{target} voice that retains the fundamental characteristics of the speech sample but modifies timbral characteristics relating to aural perception of gender. With a customizable voice model, users would be able to explore the timbral possibilities of their voice and create more clearly defined training goals that can be practiced via imitation.
 
-\section{Methodology}
+Some changes were made to the program in \cite{doyle2025}, and further work is necessary to improve the program's accessibility. In the long run, we anticipate this being a component of a larger application designed to support SLPs and individuals developing their unique preferred vocal timbre.
 
-Python is the driving coding language for this project. FreeVC \cite{Li22} has proven to be a wealth of information regarding voice cloning, featuring the implementation of libraries like pytorch \cite{PyTorch} and Librosa \cite{Librosa} to support speech analysis and synthesis using a fine-tuned checkpoint of Microsoft's WavLM model \cite{WavLM}. FreeVC first extracts a generalized timbre (i.e., mel-frequency cepstral coefficients) cepstrogram from a sample of a 'target' voice, then uses WavLM to extract the content (i.e., words spoken) from a sample of a 'source' voice. A custom transformer is then used to infer a .wav file containing the content from the source speaker using the timbre of the target speaker.
+This document first outlines some commonly agreed-upon goals for voice training, and how digital tools currently approach individually-driven practice. Then a summary of \cite{doyle2025} is provided alongside advancements made to the project. Finally, a plan is proposed for the creation of a safe and informed gender-diverse speech dataset to improve the performance of the program.
 
-We have used FreeVC as a guideline for our own implementation of speech resynthesis, and we use similar libraries to train a separate model to allow timbral adjustments to be made to the output by intercepting and modifying the MFCC cepstrogram before resynthesis.
+\section{Digital Tools for Vocal Training}
 
+The goal of vocal training for trans individuals is to work toward habitual voice-gender congruence, which, for some, may look like conforming to a particular pole of the socially traditional gender binary (i.e., a masculine or feminine voice). For others, vocal training may be more open-ended, instead acting as an exploration into the capabilities of one's voice and seeking an oral expression that reflects their gender identity.
 
-\section{Timeline}\label{sec:page_size}
+Although there is no specific, standardized guide for voice training available, commonly targeted characteristics associated with the perception of gender are pitch and pitch range, resonance, intensity, breathiness, and articulation \cite{coleman2022, leyns2021, oates2019, oates2023, davies2015}. While many of these can be measured objectively, each individual approaches voice training with special circumstances that make generalization of a single training program impossible. Ideally, each person seeking vocal transformation would adhere to a personalized training plan suggested by a professional SLP.
 
-There was a significant learning curve for all members while implementing this project, so details were subject to change throughout the term. The following timeline represents the work undergone as of April 16, 2025 including all changes since the previous timeline from March 18:
+Coleman et al. \cite{coleman2022} define standards of care to guide health care professionals in supporting trans and gender diverse (TGD) people. The term TGD is used throughout the guide to include a diverse range of gender identities, and the authors make a number of recommendations with all TGD people in mind. Importantly, the authors discuss the difficulties that TGD people face when seeking help with regard to vocal training, especially those with intersectional marginalized identities. A significant margin of TGD people wish to partake in voice training, but lack the means to access quality professional support.
 
-\begin{enumerate}
-  \item Before commencing the project, it was important that all members are on the same page and agree to and understand the project details and distribution of work. Amendments would be made to this timeline as research progresses and implementation details are decided on.
-  \item There are two major components to the project - the first being effectively cloning a vocal sample. We eventually decided on using FreeVC as a primary reference. We anticipated having a working model by early March, but the following dates are when related work was completed:
-    \begin{itemize}
-      \item Mar. 10: discovered FreeVC (Isaiah)
-      \item Mar. 13: got FreeVC working, effectively cloning a speech sample via resynthesis (Isaiah)
-      \item Mar. 18: developed a proof of concept for adjustment of timbral quality by manual intervention (Isaiah)
-    \end{itemize}
-  \item The second component involves the development of a trained model to modify vocal timbre. This includes deciding on the number of descriptors we want to use (if a finite number), and labelling a dataset of speech samples with those descriptors. We had first considered using effects that mimic timbral changes (e.g., breathiness by linear predictive coding \cite{Nordstrom08}) to generate this dataset, but decided on manual rating to support more descriptors. This was anticipated to be completed by mid-March.
-    \begin{itemize}
-      \item Mar. 8: determined which descriptors to use (Aileen, Elijah, Isaiah)
-      \item Mar. 15: implemented a pitch shifting effect (Elijah)
-      \item Mar. 17: implemented an effect to adjust perceived 'roughness' of a voice (Aileen)
-    \end{itemize}
-  \item What remained was then to complete a labelled dataset to train an MFCC classification model with, and use it to infer the adjustments to be made to an arbitrary MFCC cepstrogram (representing a voice) in order to mold it into a desired timbre.
-    \begin{itemize}
-      \item Apr. 1: create a program for manually labelling the dataset (Aileen)
-      \item Apr. 12: complete a labelled dataset mapping MFCC cepstrograms to timbres (Aileen, Elijah, Isaiah)
-      \item Apr. 12: train classifiers on said dataset to model trends  (Elijah)
-      \item Apr. 15: complete timbral manipulation using trends on input MFCC cepstrograms (Isaiah)
-      \item Apr. 16: final adjustments (Aileen, Elijah, Isaiah)
-    \end{itemize}
-\end{enumerate}
+The rise of digital technology has made a significant difference in the ecology of voice training due to its monetary and social accessibility. There are a number of free and paid smartphone applications available that are being used to help individuals practice voice training both alone and in community, with some of the more targeted applications claiming to be the "next best thing" to support from a registered SLP \cite{devextras2018, nitzandseek2020, speechtools2013}. These tools are incredibly important in improving the accessibility of voice training for TGD individuals, but raise concerns with respect to vocal health and inclusivity.
 
-There were difficulties in modelling timbral adjustment due to a lack of research currently, so there were significant setbacks in the initial timelines. We spent more time working with creating a dataset to train a model and analysing MFCC's. Though we have been behind, we are happy with the progress that we have been able to make within this project.
+While some more in-depth applications like \cite{speechtools2013} seek to emulate guided support from a SLP including foundational skills, other applications provide limited metrics \cite{devextras2018, nitzandseek2020} that risk being misused by its users if foundational skills are not already developed.
 
-\section{Experiments}\label{sec:page_size}
+Additionally, many of these digital tools seek to generalize the vocal training process for all users due to the limited capacity of smartphone applications. Most of these apps categorize gender identities into strict objectively measurable categories, which is convenient for app developers, but often fails to recognize the needs of all TGD people, especially those with otherwise marginalized identities \cite{ahmed2022}.
 
-We began by exploring a number of potential methods in trying to get past the initial phase of resynthesizing a recording of human speech. Going in we knew it would be critical, due to the intent behind the project, for the output to be realistic (i.e., imitable by a human within reason), and to have manual control over the timbre of the output. The first method we explored was the application of linear predictive coding, as we were all familiar with historical examples of using LPC for vocal modifications like pitch shifting \cite{SasahireAndHashimoto95}. As we explored using LPC, it became clear that the outputted audio sounded rough and robotic, which was a deal-breaker since we required that the output sound as natural as possible.
-
-Mel-frequency cepstral coefficients were considered early on due to their generalized, but effective, characterization of timbre, and its proven applications in speech processing \cite{Ittichaichareon12}. Although MFCCs are indeed able to extract vocal features and represent an audio file's timbral characteristics - even going as far as to be able to identify the speaker's emotion \cite{Lalithaa15} - it seemed to us that MFCCs lacked the granularity required to faithfully re-synthesize an audio sample. Unlike frequency spectra, choosing a discrete number of MFCCs to analyze results in loss of information, making it impossible to invert the operation to obtain the unchanged input. That is, using a sample's MFCCs to re-synthesize the audio results in a thin, coarse and robotic sound due to the temporal information lost in the process.
-
-As neither LPC or MFCCs seemed to be able to retrieve the information we needed from the audio as well as provide enough information to re-create the audio, we briefly changed course toward a simpler approach. In the interest of getting a tangible proof of concept, we decided to program distinct functions for adjusting the pitch, tone, breathiness, and roughness associated with input audio. With these functions, we proposed that users would adjust a number of sliders mapping to the prominence of the aforementioned effects, thus removing the need for any kind of speech synthesis.
-
-We were still keen on researching speech re-synthesis though, so we allocated time and effort into diving deeper. We eventually stumbled upon source code claiming to effectively re-synthesize input speech using the content from one speaker using the timbre of another. FreeVC \cite{Li22} works by first encoding speech information (i.e., the words spoken) by providing the raw 'source' waveform to a pre-trained WavLM model and bottleneck extractor. The timbre of another 'target' waveform is then extracted by computing a mel-cepstrogram, such that the content of the source waveform and mel-cepstrogram of the target waveform are used as input to a HiFi-GAN v1 vocoder \cite{Kong20} for synthesis.
-
-The approach Li et. al \cite{Li22} employ allow for the modification of MFCC timbral information before inference, thus allowing the possiblity of timbral adjustment. This motivated us to get back on track with our original plan, pursuing the use of MFCC manipulation as a means for timbral adjustment. We spent some time tinkering with the FreeVC source code to familiarise ourselves with its inner workings and explore the timbral possibilities of this approach.
-
-Each frame of the extracted mel-cepstrogram from the target waveform, by FreeVC's defaults, contains 80 MFCCs taken at intervals of 320 samples with a window size of 1280 samples. These are organized in a pytorch \texttt{tensor} object, which takes a form similar to a 3-dimensional numpy array, supporting the same operations for data access and modification (e.g., \texttt{tensor([[[A1, B1, ...], [A2, B2, ...], ..., [A80, B80, ...]]])} represents a mel-cepstrogram of some number of 80-coefficient mel-cepstra). Thus, we were able to manually modify the mel-cepstrogram before resynthesis to observe its effects. The following is an example of halving the magnitude of the 40 upper MFCCs (the upper half of the mel-cepstrum) for all cepstra in the extracted mel-cepstrogram:
-
-\begin{verbatim}
-mel_cepstrogram[:, 40:, :] *= 0.5
-\end{verbatim}
-
-The quality of the results were varied, which is to be expected given the brute-force nature of the experimental procedure. There was undeniably, however, considerable timbral change in the synthesized output, so we were optimistic that a more informed approach to MFCC modification will allow the program to adjust the synthesized timbre in an intuitive way.
+Voice training should be an informed exploration of one's own vocal capabilities, which can be difficult to do on one's own, especially when an app designed to help is leading them toward a goal that does not align with their ideal voice or fails to recognize their intersectional identities.
 
 
-\subsection{Dataset}
+\section{TransVox}\label{sec:page_size}
 
-We utilized a subset of the Common Voice dataset [16] as the foundation for our analysis. Given the extensive size of the dataset, we selected 900 audio files for further processing. This involved filtering out samples that were too quiet, contained excessive background noise, or had unintelligible speech. After curating a set of high-quality and usable audio samples we completed our dataset by rating each sample on a five-point scale for breathiness (1: not at all, 5: very breathy), pitch (1: low, 5: high), smoothness (1: rough/raspy, 5: smooth/podcast-y) and tone (1: thin/nasally, 5: full/strong). This was done using a custom Python program that led each of us through the library, prompting for ratings for each sample according to the parameters above. The data was then output into a spreadsheet that was uploaded to OneDrive for syncing purposes. There were some small hiccups where the file wasn't updated correctly, but with version control we were able to recover and reinstate any lost data from syncing issues. The spreadsheet would record the ratings from each user (Aileen, Elijah, Isaiah), then record the average of all our rankings in a separate final column. There was also a feature to replay the audio clip as needed during ranking, as well as being able to save your progress and return to the same point at another time. This streamlined the labelling process, and allowed us to reasonably process a large number of files manually.
+TransVox is a tool introduced by Doyle et al. \cite{doyle2025} to support the vocal imitation strategy sometimes used during voice training to practice techniques taught by a SLP. This project is not intended to serve as a standalone method for voice training, but may serve as a useful imitation tool once rigorous foundational skills are established.
 
-Using this labeled dataset, we developed predictive models for each vocal parameter. Initially, we employed Gaussian Naive Bayes models, using the MFCCs for each audio track as input features. MFCCs were extracted for each audio file using a custom \texttt{get\_timbre()} method in our implementation of FreeVC \cite{Li22}. Data preprocessing and model development were conducted using the pandas \cite{Pandas} and scikit-learn \cite{Sklearn} libraries. The dataset was split evenly into training and testing subsets.
+The program functions by receiving a speech sample of any length alongside desired values for breathiness, pitch, smoothness, and tone. The program then resynthesizes the input sample with the selected timbral parameters, resulting in a copy of the speech sample with a different vocal timbre.
 
-The following are the performance metrics (precision, recall, and F1-score) for each attribute, evaluated on the test set using the Gaussian model (see \tabref{tab:gpitch}, \tabref{tab:gtone}, \tabref{tab:gbreath}, and \tabref{tab:gsmooth}).
+The following section summarizes the findings of \cite{doyle2025}; then, the steps taken from May to August 2025 to advance the project are discussed.
 
-\begin{table}
-\begin{verbatim}
-  precision  recall  f1-score  support
+\subsection{Previous Work}
 
-1     0.12     0.44      0.19       32
-2     0.70     0.22      0.33      208
-3     0.09     0.39      0.15       23
-4     0.26     0.21      0.23       63
-5     0.20     0.33      0.25        3
+The program utilizes an existing framework for voice conversion called FreeVC \cite{li2022}, which is capable of extracting either a mel-spectrogram or speaker encoder representation of the timbre of a \textit{target} voice (i.e., a \textit{timbre vector}) alongside the content representing words spoken by a \textit{source} voice. The content and timbre are then combined to synthesize a new speech sample using the content of the source voice and the the timbre of the target voice. This occurs in a two-step process such that the timbre vector is exposed before resynthesis, allowing for timbral modification by operating on the vector directly. In the case of TransVox, both the source and target voices are the same speech sample, allowing the speech sample to be effectively cloned with or without timbral modification.
 
-accuracy                 0.25      329
-\end{verbatim}
-\caption{GNB classification report for pitch}
-\label{tab:gpitch}
-\end{table}
+A 900-file subset of Mozilla's Common Voice Corpus Delta Segment 21.0 \cite{mozilla2025} was selected and manually stripped of any unsuitable data, resulting in a dataset of 657 samples. A script was then created to allow the developers to rate each sample from 1 to 5 according to perceived levels of breathiness, pitch, smoothness, and tone. For each sample, labels were derived by taking the averages of the developers' ratings for each parameter.
 
-\begin{table}
-\begin{verbatim}
-  precision  recall  f1-score  support
+Trends were derived from the dataset by grouping the samples by their ratings and making a generalized timbre model for each segment by averaging the timbre representations of all speech samples within. Analysis of these trends was promising, particularly on the scale of pitch which showed significant polarization in the generalized timbres for the low and high segments. Several methods were attempted to apply these trends to mel-spectrograms, the most effective of which involved dividing the dataset into four groups according to their rating for pitch and taking the average MFCC difference of the input sample's expected grouping from the other three groups. A model was attempted to be trained on the dataset with the goal of automatically situating input samples into a group, but accuracy scores were low across the board for both Gaussian Naive Bayes (GNB) and Random Forest (RF) classifiers.
 
-0     0.00     0.00      0.00       14
-1     0.29     0.22      0.25       77
-2     0.24     0.27      0.25       79
-3     0.41     0.31      0.36      138
-4     0.07     0.24      0.11       21
-
-accuracy                 0.26      329
-\end{verbatim}
-\caption{GNB classification report for tone}
-\label{tab:gtone}
-\end{table}
-
-\begin{table}
-\begin{verbatim}
-  precision  recall  f1-score  support
-
-0     0.11     0.11      0.11       44
-1     0.38     0.27      0.32      106
-2     0.25     0.11      0.15       92
-3     0.27     0.59      0.37       71
-4     0.27     0.19      0.22       16
-
-accuracy                 0.27      329
-\end{verbatim}
-\caption{GNB classification report for breathiness}
-\label{tab:gbreath}
-\end{table}
-
-\begin{table}
-\begin{verbatim}
-  precision  recall  f1-score  support
-
-1     0.00     0.00      0.00        0
-2     0.10     0.32      0.15       22
-3     0.12     0.01      0.02       81
-4     0.63     0.38      0.48      191
-5     0.21     0.29      0.24       35
-
-accuracy                 0.28      329
-\end{verbatim}
-\caption{GNB classification report for smoothness}
-\label{tab:gsmooth}
-\end{table}
-
-The Gaussian models demonstrated suboptimal performance, largely due to the assumption that input features are normally distributed. In our case, the MFCC features did not satisfy this assumption, which compromised model accuracy. We thus switched to using a Random Forest Classifier instead as it does not make assumptions regarding the distribution of data. This transition led to performance improvements across all attributes:
-
-\begin{table}
-\begin{verbatim}
-  precision  recall  f1-score  support
-
-1     0.14     0.03      0.05       32
-2     0.69     0.94      0.80      208
-3     0.00     0.00      0.00       23
-4     0.62     0.40      0.49       63
-5     0.00     0.00      0.00        3
-
-accuracy                 0.67      329
-\end{verbatim}
-\caption{RF classification report for pitch}
-\end{table}
-
-\begin{table}
-\begin{verbatim}
-  precision  recall  f1-score  support
-
-1     0.00     0.00      0.00       14
-2     0.08     0.01      0.02       77
-3     0.24     0.70      0.35       79
-4     0.39     0.23      0.29      138
-5     0.00     0.00      0.00       21
-
-accuracy                 0.27      329
-\end{verbatim}
-\caption{RF classification report for tone}
-\end{table}
-
-\begin{table}
-\begin{verbatim}
-  precision  recall  f1-score  support
-
-1     0.00     0.00      0.00       44
-2     0.37     0.26      0.31      106
-3     0.27     0.35      0.30       92
-4     0.28     0.54      0.37       71
-5     0.00     0.00      0.00       16
-
-accuracy                 0.30      329
-\end{verbatim}
-\caption{RF classification report for breathiness}
-\end{table}
-
-\begin{table}
-\begin{verbatim}
-  precision  recall  f1-score  support
-
-2     0.00     0.00      0.00       22
-3     0.28     0.54      0.37       81
-4     0.61     0.53      0.57      191
-5     0.00     0.00      0.00       35
-
-accuracy                 0.44      329
-\end{verbatim}
-\caption{RF classification report for smoothness}
-\end{table}
-
-As evidenced by the metrics above, the Random Forest Classifier significantly outperformed the Gaussian approach for pitch and smoothness and was slightly better for breathiness and tone. Accuracy for pitch improved by 42\% and 16\% for smoothness.
-
-The next phase of our research involves leveraging these trained models to analyze user-submitted vocal recordings. By predicting the perceived ratings of pitch, breathiness, smoothness, and tone, the system can provide targeted audio modifications to align the user's voice with their desired vocal profile.
+Results were thus varied, and relied on the manual classification of an input sample into its expected group. Resulting audio samples can be found in the associated GitHub repository \cite{github} alongside usage information.
 
 
-\subsection{Trends in the Dataset}
-
-Independent of classification, we wanted to analyze the dataset for trends to consider how MFCCs map to the specified timbral descriptors, starting with pitch. We began by extracting the samples that were perceived as low (ratings <= 2) and as high (ratings >= 4), then used our FreeVC implementation to fetch the timbre (represented by MFCC cepstrograms) for these samples and averaged each sample's cepstrogram into a single cepstrum containing 80 MFCCs. This resulted in a generalized representation of each sample's vocal timbre. \figref{fig:highlow} shows the results of these findings, indicating considerable polarisation between high and low samples. The upper portion of the graph compares the two cepstra with a dotted midline, whereas the lower portion plots the multiplicative difference of the two cepstra from said midline.
+\subsection{Progression}
 
 \begin{figure}
-  \centering
-  \includegraphics[alt={Compared mel-cepstra of samples rated low vs. high in pitch},width=0.9\linewidth]{highlow.png}
-  \caption{MFCCs for high-pitch vs. low-pitch samples}
-  \label{fig:highlow}
+    \centering
+    \includegraphics[width=0.9\linewidth]{distributions.png}
+    \caption{Distribution of sample ratings for breathiness, pitch, smoothness, and tone}
+    \label{fig:distributions}
 \end{figure}
 
-This polarisation seemed promising, since we had anticipated the lower and higher samples having some kind of inversely-proportional relationship with respect to timbre. Applying the difference to the input timbre, however, yielded less-than-ideal results, allowing for smooth speech samples only at the extremes (much lower or much higher pitch). An example of the results yielded from gradual timbral modification can be heard in \texttt{audio/voice1\_polarised.wav} in the associated GitHub repository \cite{github}.
+The most significant drawbacks of \cite{doyle2025} lie in the model's fragility when recreating voices that lie \textit{between} the poles of traditionally masculine and feminine. These more androgynous voices tend to exhibit timbral artifacts that jump between the two poles rather than maintain a significant intermediate version. These "middle" voices are crucial for presenting a gradual sequence of voices between targets of an opposite pole, as well as accommodating users that have timbral targets that lie outside the traditional gender binary.
 
-We then decided to further segment the dataset, into four groups according to pitch ratings of 1-2, 2-3, 3-4, and 4-5. We then considered the segment that the input sample would be grouped into, and took its difference from the remaining segments. The input sample we were using for testing fit best into the highest segment, so we tested resynthesis by applying the differences of the lower three segments, indicated in \figref{fig:segments}. This approach yielded significantly better results, and would be the foundation for future work.
+Initial considerations involved the creation of a \textit{comparative} dataset, which would leverage differences in voices before and after modification, rather than generalized differences between a large number of speakers, to train a model on how a voice might change over time. Though potentially still useful, a comparative dataset would likely still lead to the problems above, as comparing two voices still leaves out the intermediate steps between them.
+
+The scale of pitch shows a considerable gap in samples around its centre, with the majority of samples being situated around values of 2.0 or 4.0, indicating a majority of perceptually male and female voices. \figref{fig:distributions} illustrates this relatively low number of samples around the 3.0 rating, which may contribute to the model struggling to synthesize voices that lie between the low and high poles with regard to pitch.
+
+Using an any-to-any model instead of FreeVC (many-to-many) was also considered due to a hypothesis that FreeVC may not be capable of generating androgynous voices because of a lack of available samples to pull from in the dataset. However, this was put into question by an informal examination of the model's ability to resynthesize androgynous voices without modification. Results were fairly successful for simple voice replication, but were not always to the same quality as more polarized voices. While this was being considered, focus was directed toward the modification of timbre vectors to truly determine if it would be possible to convert a perceptibly male or female voice to one that lies in between those two poles.
+
+% The idea of a new \emph{comparative} dataset was proposed, which would leverage differences in voices before and after modification, rather than generalized differences between a large number of speakers, to train a model on timbre representations.
+
+Using both mel-spectrogram and speaker encoder representations of timbre, a number of approaches were attempted to experiment with controlling the intermediate timbre vectors to affect parameters like pitch or breathiness. Focus was placed on using the same FreeVC-based analyze-modify-synthesize pipeline as \cite{doyle2025}, but instead of using generalized timbres pulled from the original dataset, experimenting with different methods for manipulating the timbre representations directly.
+
+One such method involved applying pitch and formant shifting to the input audio before sending it through the speaker encoder. \figref{fig:mel-shift} shows a clear correspondence between the original timbre and its respective shifts of 1.5x and 2.0x the original pitch, both with lifter quefrencies of 3 milliseconds corresponding to the same amount of formant shifting. The original mel-spectrum $T_m$ (taken by averaging over the whole spectrogram) is stretched for each subsequent shift, while generally maintaining its original contour. The same process applied to FreeVC's speaker encoder representation $T_s$ in \figref{fig:spk-shift} is less observable as a latent space, but both $T_m$ and $T_s$ yield similar results once synthesized.
+
+Using both $T_m$ and $T_s$ to synthesize the resulting timbre after pitch shifting led to quality voice conversion between the source speaker and a single potential target speaker -- that is, a voice that resembles the source timbre in quality but differs with respect to gender perception. However, attempts to generate intermediate steps between gender poles faced the same issues as above. In every case, the perceptual quality of using $T_s$ to synthesize output is better than $T_m$ despite suffering the same issues with intermediate voices. Further iterations then opted for using speaker encoder timbre vectors over mel-spectrograms.
+
+Since it is possible to create a believable fully transitioned voice in the current state of the project, attempts were made to interpolate between the source timbre representation and a generated target timbre using both linear interpolation and ridge regression. Both attempts were also unsuccessful in the same way, suggesting that a more robust method for detecting trends is required to effectively model the nonlinearity of a voice in transition.
 
 \begin{figure}
-  \centering
-  \includegraphics[alt={Compared mel-cepstra of segmented samples},width=0.9\linewidth]{segments.png}
-  \caption{MFCCs for segmented samples}
-  \label{fig:segments}
+    \centering
+    \includegraphics[width=0.9\linewidth]{mel-shift.png}
+    \caption{Effects of pitch shifting on generalized mel-spectra $T_m$}
+    \label{fig:mel-shift}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{spk-shift.png}
+    \caption{Effects of pitch shifting on generalized speaker encoder representations $T_s$}
+    \label{fig:spk-shift}
+\end{figure}
+
+One such method for creating a diverse range of voices is employing a generative model capable of mapping between voices in a nonlinear way. A variational autoencoder (VAE) is a generative version of an autoencoder with the ability to create new samples that resemble training data without imitating the data directly \cite{kingma2013}. A \textit{conditional} VAE (CVAE) allows for the conditioning of said generated output, leaning the result toward a particular label \cite{sohn2015}. It was hypothesized that if a timbre vector can be sent through a CVAE's encoder to yield a lower-dimensional representation, the decoder can then be conditioned to convert that lower-dimensional representation back into a full timbre vector, but breathier, or with higher pitch, for example.
+
+In this case, the input to the CVAE's encoder is a 256-float array representing FreeVC's speaker encoder timbre vector $T_x$, and a condition vector $c$ representing its perceptual timbral parameters (e.g., pitch, breathiness, etc.). The encoder then reduces the dimensions of $T_x$ to create a lower-dimensional representation $T_z$. In training, the decoder takes $T_z$ and $c$ as input to recreate $T_x$ to the best of its ability. In practice, a CVAE can be used to randomly sample $T_z$ from a probability distribution to generate a completely new timbre $T_y$ corresponding to the supplied condition $c$, thus disregarding the encoder during inference.
+
+The same dataset from \cite{doyle2025} was used to train the CVAE with 6-10 epochs. Each training epoch takes the first 500 samples in the dataset in batches of roughly 80, and uses the final 157 samples for testing. The loss value from the first batch in the first epoch was around 181 and decreased logarithmically as seen in \figref{fig:training-loss}, to converge around a loss value of approximately 36 after only the first few epochs.
+
+After some experimentation, the CVAE model proved effective as a means for cloning and transforming timbres but still struggles to convert traditionally masculine or feminine voices into a more androgynous range. Referring back to the distribution of pitch ratings in \figref{fig:distributions}, this is likely due to a significant lack of samples around the pitch rating of 3.0 (i.e., androgynous-leaning voices).
+
+The CVAE model lends itself well to intuitive interaction, as the only user-supplied parameters for the encoder and decoder are the condition vectors. Another advantage of the CVAE method is how easily one can make randomly varied voices by arbitrarily modifying some of the other timbral parameters. The same condition vector is currently being given to both the encoder and decoder, which may not be ideal since the encoder condition is intended to represent the perceptual qualities of the input and the decoder condition the qualities of the output, which should contrast. With a more comprehensive dataset like the one called for in \cite{doyle2025}, an improved classifier can be trained to estimate the encoder condition, potentially leading to more effective decoding.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{training-loss.png}
+    \caption{Impact on training loss for the first six epochs}
+    \label{fig:training-loss}
 \end{figure}
 
 
-\section{Results}\label{sec:page_size}
+\section{Future Work}
 
-Following the segmented dataset approach, smoother results were obtained by editing how exactly the dataset was segmented and the influence the differences between segments had on the input timbre. Particularly, it was found that scaling the difference between the input segment and the others in that dataset drastically improved results, with diminishing returns at around powers of 8. The application of said differences thus followed the format \texttt{input * torch.pow(diff[None,:,None], 8)} where \texttt{input} is the input cepstrogram and \texttt{diff} is the difference between the input segment and another arbitrary segment.
+% Besides the base functionality of the program, a simple user interface (UI) is also to be designed, allowing non-developers to use and test the program accordingly when the time for beta testing arrives. For effective development of the program as a whole, some consultation is necessary with professional voice coaches and members of the Trans + community. Hearing from individuals with intimate experience in the field will be paramount to creating a truly valuable tool for those undergoing vocal training, gathering information about its perceived social impacts and effectiveness as a training tool. It's critical that this project be approached with sensitivity, and an understanding of the ethics of the synthesis of queer voices \cite{sigurgeirsson2024}.
 
-The audio results obtained using a single input file can be heard in the \texttt{audio} directory in \cite{github}. There are 3-4 files per label, alongside an unmodified example. Breathiness and smoothness are two areas of concern: both descriptors lead to a much lower timbre, which is likely due to the distribution of vocal timbres along each rating scale (e.g., lower voices may be more likely to sound rougher) and the distribution of speaker identities in the dataset. The resulting audio files are named according to the timbral descriptor applied, along with a number representing the rating segment used to take the difference. For pitch, the reference segment was 4 except for \texttt{voice1\_Average\_Pitch-4.wav}, which considers segment 3 to be the reference. For example, \texttt{voice1\_Average\_Pitch-3.wav} considered the input file to be in the highest segment (4) and applies the difference calculated from segment 4 to segment 3, resulting in a slightly lower vocal timbre. \texttt{voice1\_Average\_Pitch-1.wav}, on the other hand, uses the difference from segment 4 to segment 1, resulting in a much lower vocal timbre.
+The limitations imposed by the current state of the project all point toward the shortcomings of the dataset used to train the CVAE, and likely also the FreeVC speaker encoder and decoder. Future advancements of the program may therefore rely on the development of a diverse speech dataset that captures a broad range of vocal timbres across gender, sexuality, race, age, and class to accommodate as many vocal timbres and timbral targets as possible. Establishing a robust dataset would also provide the opportunity to revisit considered features and their assessment methods, which may contribute to higher-quality output.
 
-This idea of manipulating MFCCs for timbral modification is currently underresearched, since reconstruction of an audio signal was previously impossible without recent developments in machine learning. The results obtained through this project are promising nevertheless, and may pave the way for future research.
+Diverse voices tend to be hard to come by in many public datasets. For example, the latest Mozilla Common Voice Corpus 22.0 has 0\% of samples labelled transgender or nonbinary speakers as of writing this paper \cite{mozilla2025}. Specifically, 44\% of speakers are labelled Male/Masculine, 18\% are labelled Female/Feminine, and 39\% are unlabelled. Although it may be possible for some speakers to identify as trans or nonbinary but choose not to label themselves so when submitting to the dataset, the results from the pitch ratings in \figref{fig:distributions} are still analogous to the above proportions. The distribution of pitch should be as even as possible; so to create an authentic, diverse dataset, voices that level the playing field (i.e., those in the 3.0 and 4.0 range) will need to be collected. If no other dataset can be relied on to supply these voices, some recording of willing participants may be necessary.
+
+With the development of a diverse dataset, however, comes a number of concerns for the safety of both contributors and users. Prominently, for its use by this program, it is critical that such a speech dataset \textit{does not} label speech samples as any particular gender, sexuality, or other social characteristics. To support truly open-ended exploration of vocal timbre, such categories should instead be replaced with purely timbral characteristics associated with the perception of gender such as pitch, resonance, intensity, and breathiness. Although it would be possible to simply ignore unnecessary features like gender or sexual orientation in training, such a dataset would cause a number of safety concerns if it were to be made publicly accessible.
+
+Sigurgeirsson and Ungless \cite{sigurgeirsson2024} discuss both the benefits and dangers of creating a dataset favouring queer voices, citing the safety of dataset contributors and the potentially dangerous uses of such a dataset as important concerns due to mockery, malicious actors, restrictive government policy, and harmful technologies. If not properly considered, these factors may lead to potentially fatal consequences for queer people and cause destruction that vastly outweighs any possible benefits \cite{tvt2012}.
+
+Because of these risks, it is paramount that the inception of such a dataset treads lightly. First, as mentioned previously, the dataset must not contain any labels that identify the gender or sexual orientation of any of the speakers. Second, there should be an approximately equal amount of queer speakers to cis/straight speakers such that each sample has an equal chance of falling into any particular category. Not only does this create a level playing field for vocal timbres, but also works to obfuscate the identities of contributors. Third, even if the dataset does not contain precise information about gender identity or sexual orientation, the dataset should not be released to the public. This is because it is all too possible for someone to download the dataset and attribute labels for gender and/or sexual orientation manually, effectively nullifying any work done to avoid such consequences. While it may be possible for other researchers to request access, intent should be very carefully considered and all applicable contributors' consent should be obtained.
+
+Finally, as this project progresses it is crucial to maintain an informed relationship with individudals with intimate experience in the field of voice training, including trans scholars, SLPs, and members of the queer community. An initial line of communication has been opened with a local trans vocal coach, but the opinions of many more people involved with voice training in some way will be important in the future development of this project. From dataset collection to UI design, this is above all else a program to support queer people and thus the needs of those that this program will impact will precisely define its technical requirements.
 
 
-\section{Future Work}\label{sec:page_size}
-Currently, the reference segment that the input file is grouped into is hard-coded according to the input file being used. By integrating the classifiers discussed, this procedure should be automated to support any operations for any input file.
+\section{Conclusion}\label{sec:page_size}
 
-Additionally, the program expects all samples to have a 16-bit, 24kHz sampling rate, which should also be generalized to support diverse audio files. The program should check the sampling rate of any input file and convert the file manually if the specification is not met.
+Since 2023, the Human Rights Campaign has declared a National State of Emergency for LGBTQ+ Americans, citing harmful anti-LGBTQ+ bills that include the limitation of access to proven gender-affirming healthcare \cite{hrc2024}. When the systems that we rely on begin to enact legislation against our health and safety, it becomes our responsibility to support each other. Digital tools are a unique opportunity to empower queer people by creating something truly useful out of nothing.
 
-There may also be room for improvement regarding the generalisation of MFCCs within and between audio samples. The current program sticks to simple averaging, but more sophisticated dimension reduction techniques may improve the accuracy of the generalised cepstra.
+Despite available digital tools struggling to meet the needs of all TGD people, they deserve praise for providing access to some level of support that may otherwise be impossible for some. Instead of attempting to reform these programs into the perfect tool, focus may instead be placed on creating an inclusive ecosystem of digital tools that make it possible for individuals of all backgrounds to access a foundational level of care.
 
-We previously proposed the implementation of a user-friendly UI to support the program, but we opted to use our time to dive further into the backend and ensure the results were robust. Future developers may be interested in creating a UI to present the application to users, and consider how users will specify how they want to affect their vocal timbre. An advanced final product may implement a natural language processing model to support textual specification of any number of timbral descriptors. A cheaper alternative may be to resort to a series of sliders corresponding to particular timbre descriptors (e.g., 'breathy', 'nasally', etc.) that reflect exactly the descriptors used during labeling.
-
-Finally, additions to the dataset would improve this project immensely. Given the limited time that we had to do this project, we would want to be able to use a larger dataset for training our model in the future. Ideally, we would like this dataset to be more evenly distributed along different vocal descriptors so when training the model we are able to maintain integrity of other aspects while adjusting one. For example, most raspy voices were lower, therefore the model would make the voice lower while making it more raspy. Also, being able to have an even larger dataset would allow for the model to be able to analyze and understand even more voice types which will help with the quality of outputted voices. As of current, the dataset could only be segmented into four categories for each descriptor due to the relatively low number of samples, but a much larger dataset with a wider variety of vocal timbres would allow for more granular segmentation and thus smaller changes in timbre.
+TransVox proposes a component of this ecosystem that will support SLPs and queer people in finding their unique voice. We hope that the development of a timbrally-diverse dataset is approached sensitively and makes a significant improvement to the diverse capabilities of TransVox as a useful contribution to the available digital tools for voice training.
 
 
 % For BibTeX users:
-%\bibliography{ISMIRtemplate}
-\begin{thebibliography}{citations}
 \bibliographystyle{IEEEtran}
-\bibitem{DevExtras}
-DevExtras. (2018). Voice Tools. Accessed: Feb. 18, 2025. [Online]. Available: \url{https://devextras.com/voicetools/}
+\bibliography{ISMIRtemplate}
 
-\bibitem{SeekAndNitz}
-D. Seek \& C. Nitz (2020). Voice Pitch Analyzer. Accessed: Feb. 18, 2025. [Online]. Available: \url{https://voicepitchanalyzer.app}
-
-\bibitem{AntoniAndSpeechtools}
-C. Antoni and C. Speechtools Ltd. (2013). ChristellaVoiceUp. Accessed: Feb. 18, 2025 [Online]. Available: \url{https://www.christellaantoni.co.uk/transgender-voice/voiceupapp/}
-
-\bibitem{Alter24}
-I.L. Alter, K.A. Chadwick, K. Andreadis, R. Coleman, M. Pitti, J.M. Ezell, & A. Rameau. “Developing a mobile application for gender‐affirming voice training: A community‐engaged approach“ \textit{Laryngoscope Investig Otolaryngol}. 2024. doi: 10.1002/lio2.70043. Accessed: Feb. 13, 2025. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC11645500}
-
-\bibitem{HawleyAndHancock24}
-J.L. Hawley and A.B. Hancock. “Incorporating Mobile App Technology in Voice Modification Protocol for Transgender Women.” Journal of Voice. 2024. DOI: 10.1016/j.jvoice.2021.09.001. Accessed: Feb. 11, 2025. [Online]. Available:
-\url{https://www.sciencedirect.com/science/article/abs/pii/S089219972100299X}
-
-\bibitem{Barkmeier-Kraemer}
-J.M. Barkmeier-Kraemer, J.N. Craig, A.B. Harmon, R.R. Hillman, J. Jacobson, R.R. Patel, B.H. Ruddy, J.C. Stemple, Y.A. Sumida, K. Tanner, S.M Theis, M.R. van Mersbergen, \& L.P. Verdun. “Voice Disorders.” asha.org. Accessed: Feb. 12, 2025. [Online]. Available: \url{https://www.asha.org/practice-portal/clinical-topics/voice-disorders}
-
-\bibitem{Li22}
-J. Li, W. Tu, and L. Xiao. “FreeVC: Towards High-Quality Text-Free One-Shot Voice Conversion,” \textit{arXiv preprint arXiv:2210.15418}, 2022.
-
-\bibitem{PyTorch}
-PyTorch, "pytorch," github.com. Acessed Mar. 18, 2025. [Online]. Available: \url{https://github.com/pytorch/pytorch}
-
-\bibitem{Librosa}
-Librosa, "librosa," github.com. Acessed Mar. 18, 2025. [Online]. Available: \url{https://github.com/librosa/librosa}
-
-\bibitem{WavLM}
-S Chen, C Wang, Z Chen, et al., “Wavlm: Large-scale self-supervised pre-training for full stack speech processing,” \textit{IEEE Journal of Selected Topics in Signal Processing}, 2022.
-
-\bibitem{Nordstrom08}
-K. I. Nordstrom, G. Tzanetakis, and P. F. Driessen, "Transforming Perceived Vocal Effort and Breathiness
-Using Adaptive Pre-Emphasis Linear Prediction," \textit{IEEE TRANSACTIONS ON AUDIO, SPEECH, AND LANGUAGE PROCESSING}, vol. 16, no. 6, 2008.
-
-\bibitem{SasahireAndHashimoto95}
-Y. Sasahira and S. Hashimoto. “Voice Pitch Changing by Linear Predictive Coding Method to Keep the Singer’s Personal Timbre.” \textit{International Computer Music Conference}, (September 3-7) 1995. Available: \url{https://quod.lib.umich.edu/cgi/p/pod/dod-idx/voice-pitch-changing.pdf?c=icmc;idno=bbp2372.1995.118;format=pdf}
-
-\bibitem{Ittichaichareon12}
-C. Ittichaichareon, S. Suksri, and T. Yingthawornsuk. "Speech Recognition Using MFCC." \textit{International Conference on Computer Graphics, Simulation and Modeling}, (July 28-29) 2012. Available: \url{https://www.researchgate.net/publication/281446199_Speech_Recognition_using_MFCC}
-
-\bibitem{Lalithaa15}
-S. Lalithaa, D. Geyasrutia, R. Narayanana, \& M. Shravani. "Emotion Detection using MFCC and Cepstrum Features." \textit{International Conference on Eco-friendly Computing and Communication Systems}. (2015) Available: \url{https://www.sciencedirect.com/science/article/pii/S1877050915031841?ref=cra_js_challenge&fr=RR-1}
-
-\bibitem{Kong20}
-J Kong, J Kim, et al., “Hifi-gan: Generative adversarial networks for efficient and high fidelity speech synthesis," \textit{arXiv preprint arXiv:2010.05646}, 2020.
-
-\bibitem{Mozilla}
-Mozilla, 2019, "Common Voice Corpus 1", Common Voice. [Online]. Available: \url{https://commonvoice.mozilla.org/en/datasets}
-
-\bibitem{Pandas}
-Pandas, "pandas," github.com. Accessed April 11, 2025. [Online]. Available: \url{https://github.com/pandas-dev/pandas}
-
-\bibitem{Sklearn}
-Scikit-learn, "sckit-learn," github.com. Accessed April 7, 2025. [Online]. Available: \url{https://github.com/scikit-learn/scikit-learn}
-
-\bibitem{github}
-I. Doyle, A. Klassen, and E. Larmer, "timb-re-synthesis," github.com. Acessed Apr. 16, 2025. [Online]. Available: \url{https://github.com/isaiahdoyle/timb-re-synthesis}
-
-\end{thebibliography}
-% For non BibTeX users:
-%\begin{thebibliography}{citations}
-% \bibitem{Author:17}
-% E.~Author and B.~Authour, ``The title of the conference paper,'' in {\em Proc.
-% of the Int. Society for Music Information Retrieval Conf.}, (Suzhou, China),
-% pp.~111--117, 2017.
-%
-% \bibitem{Someone:10}
-% A.~Someone, B.~Someone, and C.~Someone, ``The title of the journal paper,''
-%  {\em Journal of New Music Research}, vol.~A, pp.~111--222, September 2010.
-%
-% \bibitem{Person:20}
-% O.~Person, {\em Title of the Book}.
-% \newblock Montr\'{e}al, Canada: McGill-Queen's University Press, 2021.
-%
-% \bibitem{Person:09}
-% F.~Person and S.~Person, ``Title of a chapter this book,'' in {\em A Book
-% Containing Delightful Chapters} (A.~G. Editor, ed.), pp.~58--102, Tokyo,
-% Japan: The Publisher, 2009.
-%
-%\end{thebibliography}
 
 \end{document}

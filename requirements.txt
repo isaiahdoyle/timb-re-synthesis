@@ -1,5 +1,8 @@
-librosa==0.8.1
-numpy==1.23
-scipy==1.7.2
-torch==1.10.0
-webrtcvad
+librosa==0.11.0
+numpy==1.26.4
+scipy==1.16.2
+torch==2.7.1
+webrtcvad==2.0.10
+pandas
+openpyxl
+matplotlib

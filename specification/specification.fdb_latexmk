@@ -1,7 +1,14 @@
 # Fdb version 3
-["pdflatex"] 1744864679 "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/timb-re-synthesis/specification/specification.tex" "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/timb-re-synthesis/specification/specification.pdf" "specification" 1744864680
-  "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/timb-re-synthesis/specification/specification.aux" 1744864679 8 a94a2480d3289e625eea47cd1b285758 ""
-  "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/timb-re-synthesis/specification/specification.tex" 1744864678 33176 4dd6c8539a15167c004f337bc1b01378 ""
+["bibtex specification"] 0 "specification.aux" "specification.bbl" "specification" 1748713832
+  "./IEEEtran.bst" 1744857608 57682 3905f1f2d132ed5d8ad43cc26022c9ae ""
+  "ISMIRtemplate.bib" 1748713831 2904 7cc59a84132f855ef74a3b38bd47b238 ""
+  "specification.aux" 0 -1 0 "pdflatex"
+  (generated)
+  "specification.blg"
+  "specification.bbl"
+["pdflatex"] 1748713831 "/Users/isaiahdoyle/uvic/25 summer session/csc497/specification/specification.tex" "/Users/isaiahdoyle/uvic/25 summer session/csc497/specification/specification.pdf" "specification" 1748713832
+  "/Users/isaiahdoyle/uvic/25 summer session/csc497/specification/specification.aux" 1748713831 8 a94a2480d3289e625eea47cd1b285758 ""
+  "/Users/isaiahdoyle/uvic/25 summer session/csc497/specification/specification.tex" 1748713158 10847 2318dd165fd5ef016482ad1b28ba55fd ""
   "/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2020/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm" 1136768653 1292 bd42be2f344128bff6d35d98474adfe3 ""
@@ -66,14 +73,13 @@
   "/usr/local/texlive/2020/texmf.cnf" 1586288231 577 d60164b4589a341208aff7a667fbbdcb ""
   "cc_by.pdf" 1739946277 3422 af5b27ee6bca9c0f194a55f11008b85f ""
   "cite.sty" 1744857530 26163 e187c14d5b81b3757d8de90dc6407aa4 ""
-  "highlow.png" 1744841505 62085 11a95330d5d5834963600e4a9076f3c7 ""
   "ismir.sty" 1744857553 10682 0a371f011b19203e32b0e110a7f6083a ""
-  "segments.png" 1744841543 84483 8356c3e6d25addd785d6e8686cc82c66 ""
   "specification.aux" 0 -1 0 "pdflatex"
-  "specification.tex" 1744864678 33176 4dd6c8539a15167c004f337bc1b01378 ""
+  "specification.bbl" 1748713136 2628 f8f2052b40b44ddfb17048caa3606bdf "bibtex specification"
+  "specification.tex" 1748713158 10847 2318dd165fd5ef016482ad1b28ba55fd ""
   (generated)
-  "specification.pdf"
-  "specification.log"
-  "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/timb-re-synthesis/specification/specification.pdf"
+  "/Users/isaiahdoyle/uvic/25 summer session/csc497/specification/specification.pdf"
   "specification.aux"
-  "/Users/isaiahdoyle/uvic/24-25 winter session/spring2025/csc475/project/timb-re-synthesis/specification/specification.log"
+  "specification.pdf"
+  "/Users/isaiahdoyle/uvic/25 summer session/csc497/specification/specification.log"
+  "specification.log"

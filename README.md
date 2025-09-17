@@ -1,10 +1,12 @@
 # timb-re-synthesis
-Non-realtime vocal resynthesis using applied timbral descriptors
 
+This program supports non-realtime vocal resynthesis, applying specified timbral descriptors to shift the timbre of a speech sample toward a particular target. Our end goal is to support imitation-based voice training for trans individuals, allowing users to modify their voice to define a specific timbral goal.
+
+An initial phase of development was conducted from January to April 2025, followed by a second phase from May to August. Both resulting papers can be found in `specification/phase1.pdf` and `specification/phase2.pdf` respectively.
 
 ## Installation
 
-1. Speech synthesis requires the installation of FreeVC and WavLM checkpoints for analysis and synthesis, respectively:
+1. Speech synthesis requires the installation of FreeVC and WavLM checkpoints for speech analysis and synthesis:
 
     - [Install the WavLM-Large checkpoint](https://github.com/microsoft/unilm/tree/master/wavlm) and place the `.pt` file in `freevc/wavlm/`.
 
@@ -16,22 +18,30 @@ Non-realtime vocal resynthesis using applied timbral descriptors
 
     - Type `source ./virtenv/bin/activate` on Linux/MacOS or `.\virtenv\Scripts\activate.bat` on Windows to enter the virtual environment. Type `deactivate` to exit the virtual environment.
 
-3. Run `pip install -r requirements.txt` to install dependencies.
+3. Run `pip install -r requirements.txt` to install python-specific dependencies.
 
 
 ## Usage
 
 ```
-usage: python main.py [-h] [-o OUTPUT] [-d DATASET] [-l LABEL] path
+usage: main.py [-h] [--output OUTPUT] [--ui] [--pre PRE] [--post POST] path
 
 positional arguments:
-  path                  input file
+  path                 path to speech input
 
-optional arguments:
-  -h, --help            show this help message and exit
-  -o OUTPUT             output directory
-  -d DATASET            path to dataset
-  -l LABEL              timbral descriptor (Average_Pitch, Average_Tone, Average_Breathiness, or Average_Smoothness)
+options:
+  -h, --help           show this help message and exit
+  --output, -o OUTPUT  path to output (.wav expected)
+  --pre PRE            breathiness, pitch, smoothness, tone of input rated 1-5 (e.g., 1234)
+  --post POST          desired breathiness, pitch, smoothness, tone rated 1-5 (e.g., 1234)
 ```
 
-*Note: currently, input audio files are required to be 24kHz sampling rate, 16-bit `.wav` files. Some example files meeting this specification are provided in `input/`.*
+### Example.
+```
+$ python3 main.py input/voice1.wav -o output/voice1-out.wav --pre=1234 --post=4321
+```
+
+
+## Future Work
+
+The most recent phase of development focused on the implementation of a conditional variational autoencoder (CVAE) to support the modification of timbre vectors yielded from FreeVC's speaker encoder. The CVAE in its current state is capable of reconstructing polarized timbres from the range of 'perceptibly male' and 'perceptibly female', but struggles to represent timbres outside of that traditional binary. This is seen in a considerable trough in the dataset with respect to neutrally-rated voices in the dataset (see `specification/phase2.pdf`), and is likely the cause of the CVAE's difficulty in representing these voices. To accommodate all kinds of vocal timbres, we call for the development of a gender-diverse speech dataset for CVAE training. There are a number of important considerations when developing such a dataset, so recommendations are proposed in `phase2.pdf` to guide that discussion.
