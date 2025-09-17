@@ -79,7 +79,8 @@ def visualize_training_loss(epochs: int = 10) -> None:
 
 
 if __name__ == '__main__':
+    # Uncomment desired figures
     # visualize_dataset('../audio_ratings.xlsx')
-    visualize_training_loss(6)
+    # visualize_training_loss(6)
 
     plt.show()

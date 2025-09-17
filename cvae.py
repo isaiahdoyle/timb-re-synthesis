@@ -6,6 +6,8 @@ License: MIT
 
 import torch
 import torch.utils.data
+import numpy as np
+
 from torch import nn, optim
 from torch.nn import functional as F
 from dataset import TimbreDataset
@@ -29,7 +31,7 @@ kwargs = {'num_workers': 0, 'pin_memory': True}
 # hyper params
 batch_size = 4
 latent_size = 20
-epochs = 5
+epochs = 10
 
 
 timbre_model = FreeVC(use_spk=True)
@@ -126,6 +128,8 @@ def loss_function(recon_x, x, mu, logvar):
 def train(epoch):
     model.train()
     train_loss = 0
+    losses = np.ndarray(0)
+
     for batch_idx, batch in enumerate(train_loader):
         data = batch['timbre']
         labels = batch['labels']
@@ -136,14 +140,19 @@ def train(epoch):
         loss.backward()
         train_loss += loss.detach().cpu().numpy()
         optimizer.step()
+
         if batch_idx % 20 == 0:
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(train_loader.dataset),
                 100. * batch_idx / len(train_loader),
                 loss.item() / len(data)))
 
+            losses = np.append(losses, loss.item() / len(data))
+
     print('====> Epoch: {} Average loss: {:.4f}'.format(
           epoch, train_loss / len(train_loader.dataset)))
+    
+    return losses
 
 
 def test(epoch):
@@ -168,15 +177,22 @@ def test(epoch):
 
 '''TRAINING EXAMPLE:'''
 
-for epoch in range(1, epochs + 1):
-        train(epoch)
-        test(epoch)
-        with torch.no_grad():
-            c = torch.tensor([[3, 3, 3, 3]])
-            sample = torch.randn(1, latent_size).to(device)
-            sample = model.decode(sample, c).cpu()
+def train_model(save: bool = False, epochs: int = epochs) -> np.ndarray:
+    losses = np.ndarray(0)
 
-torch.save(model.state_dict(), 'cvae.pth')
+    for epoch in range(1, epochs + 1):
+            losses = np.append(losses, train(epoch))
+            test(epoch)
+
+            with torch.no_grad():
+                c = torch.tensor([[3, 3, 3, 3]])
+                sample = torch.randn(1, latent_size).to(device)
+                sample = model.decode(sample, c).cpu()
+
+    if save:
+        torch.save(model.state_dict(), 'cvae.pth')
+
+    return losses
 
 ''''''
 

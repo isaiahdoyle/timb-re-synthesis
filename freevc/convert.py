@@ -19,6 +19,9 @@ import logging
 import numpy as np
 import freevc.utils as utils
 
+logging.getLogger('numba').setLevel(logging.WARNING)
+logging.getLogger('matplotlib').setLevel(logging.WARNING)
+
 from typing import Union
 from scipy.io.wavfile import write
 from freevc.models import SynthesizerTrn
@@ -27,7 +30,6 @@ from freevc.mel_processing import mel_spectrogram_torch
 from freevc.speaker_encoder.voice_encoder import SpeakerEncoder
 
 
-logging.getLogger('numba').setLevel(logging.WARNING)
 
 PTFILE_SPK: str  = 'freevc/checkpoints/freevc.pth'
 PTFILE_MFCC: str = 'freevc/checkpoints/freevc-s.pth'
